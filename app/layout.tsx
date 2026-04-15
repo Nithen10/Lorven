@@ -1,11 +1,12 @@
+import type { Metadata } from "next";
 import "../styles.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Lorven AI Studio",
   description: "Lorven AI Studio develops custom AI solutions for innovative companies.",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>

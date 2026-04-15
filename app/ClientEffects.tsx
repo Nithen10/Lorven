@@ -7,7 +7,7 @@ export default function ClientEffects() {
     const revealObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) entry.target.classList.add("visible");
+          entry.target.classList.toggle("visible", entry.isIntersecting);
         }
       },
       { threshold: 0.14 }
@@ -32,7 +32,7 @@ export default function ClientEffects() {
 
     sections.forEach((section) => activeObserver.observe(section));
 
-    const field = document.querySelector(".particle-field");
+    const field = document.querySelector(".particle-field") as HTMLElement | null;
     if (field && !field.dataset.ready) {
       field.dataset.ready = "true";
       for (let i = 0; i < 36; i += 1) {
@@ -44,7 +44,7 @@ export default function ClientEffects() {
       }
     }
 
-    const reviewTrack = document.querySelector(".review-track");
+    const reviewTrack = document.querySelector(".review-track") as HTMLElement | null;
     if (reviewTrack && !reviewTrack.dataset.ready) {
       reviewTrack.dataset.ready = "true";
       reviewTrack.innerHTML += reviewTrack.innerHTML;

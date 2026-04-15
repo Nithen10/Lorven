@@ -4,7 +4,7 @@ const pageMarkup = String.raw`
   <div class="ambient ambient-one"></div>
   <div class="ambient ambient-two"></div>
   <header class="topbar">
-    <a class="brand" href="#home" aria-label="Lorven AI Studio home"><img class="brand-logo" src="/lorven-brand.jpeg" alt="Lorven"></a>
+    <a class="brand" href="#home" aria-label="Lorven AI Studio home"><img class="brand-logo" src="/logo-new.png" alt="Lorven"></a>
     <nav class="nav" aria-label="Primary navigation">
       <a href="#services">services</a>
       <a href="#process">process</a>
@@ -31,7 +31,7 @@ const pageMarkup = String.raw`
 
     <section class="intro section reveal">
       <p class="mega-watermark">Lorven</p>
-      <h2>We're Lorven. We develop custom AI solutions for innovative companies.</h2>
+      <h2>We're Lorven. We develop custom AI <em>solutions for innovative companies.</em></h2>
       <a class="button muted" href="#contact">Get in touch</a>
     </section>
 
@@ -202,7 +202,7 @@ const pageMarkup = String.raw`
       <form><input placeholder="name@email.com"><button type="button">subscribe</button></form>
     </div>
     <div class="footer-grid">
-      <a class="brand" href="#home"><img class="brand-logo" src="/lorven-brand.jpeg" alt="Lorven"></a>
+      <a class="brand" href="#home"><img class="brand-logo" src="/logo-new.png" alt="Lorven"></a>
       <div><h3>Socials</h3><a>Instagram</a><a>Twitter</a><a>LinkedIn</a><a>Facebook</a></div>
       <div><h3>Links</h3><a href="#services">Services</a><a href="#process">Process</a><a href="#team">Team</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div>
       <div><h3>Credits</h3><p>Template inspired by Halo<br>Rebuilt for Lorven AI Studio</p></div>

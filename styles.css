@@ -72,8 +72,8 @@ button, input, textarea { font: inherit; }
   letter-spacing: 0;
 }
 .brand-logo {
-  width: 260px;
-  height: 82px;
+  width: 180px;
+  height: 57px;
   display: block;
   object-fit: cover;
   object-position: center;
@@ -183,21 +183,32 @@ button, input, textarea { font: inherit; }
 .intro { min-height: 820px; display: grid; place-items: center; text-align: center; }
 .intro h2 {
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(42px, 6vw, 65px);
-  line-height: 1.18;
-  font-weight: 500;
-  max-width: 1060px;
-  margin: 0 auto 34px;
+  font-size: clamp(36px, 5.2vw, 68px);
+  line-height: 1.2;
+  font-weight: 700;
+  max-width: 100%;
+  margin: 0 auto 40px;
+}
+.intro h2 em {
+  font-style: italic;
+  background: linear-gradient(180deg, #b8dbfa 0%, #70befa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .mega-watermark {
   position: absolute;
-  inset: 190px 0 auto;
+  inset: 0 0 240px 0;
   margin: auto;
-  color: rgba(112,190,250,.055);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(112,190,250,.07);
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(180px, 34vw, 500px);
-  font-weight: 500;
+  font-size: clamp(160px, 28vw, 420px);
+  font-weight: 700;
   z-index: -1;
+  pointer-events: none;
 }
 
 .section-title {
