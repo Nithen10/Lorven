@@ -81,8 +81,8 @@ export function Navbar() {
 
   const navLinksData = [
     { label: "services", href: "#services" },
-    { label: "products", href: "#products" },
     { label: "process", href: "#process" },
+    { label: "products", href: "#products" },
     { label: "team", href: "#team" },
     { label: "pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
@@ -106,13 +106,51 @@ export function Navbar() {
       <header
         className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-20
                      flex flex-col items-center
-                     pl-6 pr-6 py-3 backdrop-blur-sm
+                     pl-8 pr-8 py-4
                      ${headerShapeClass}
-                     border border-[#333] bg-[#1f1f1f57]
                      w-[calc(100%-2rem)] sm:w-auto
-                     transition-[border-radius] duration-0 ease-in-out`}
+                     transition-[border-radius] duration-0 ease-in-out
+                     overflow-hidden`}
+        style={{
+          boxShadow: "0 2px 16px rgba(0, 0, 0, 0.15)",
+        }}
       >
-        <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
+        {/* Layer 1: Backdrop blur — heavy frosted glass */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backdropFilter: "blur(16px) saturate(1.8)",
+            WebkitBackdropFilter: "blur(16px) saturate(1.8)",
+            borderRadius: "inherit",
+          }}
+        />
+        {/* Layer 2: Tinted glass fill — more opaque for frosted look */}
+        <div
+          className="absolute inset-0 z-[1]"
+          style={{
+            background: "rgba(255, 255, 255, 0.06)",
+            borderRadius: "inherit",
+          }}
+        />
+        {/* Layer 4: Inner edge highlights — glass rim light */}
+        <div
+          className="absolute inset-0 z-[3]"
+          style={{
+            boxShadow:
+              "inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.15), inset 1px 0 1px 0 rgba(255, 255, 255, 0.2), inset -1px 0 1px 0 rgba(255, 255, 255, 0.2)",
+            borderRadius: "inherit",
+          }}
+        />
+        {/* Layer 5: Border */}
+        <div
+          className="absolute inset-0 z-[4]"
+          style={{
+            border: "1px solid rgba(255, 255, 255, 0.3)",
+            borderRadius: "inherit",
+            pointerEvents: "none",
+          }}
+        />
+        <div className="relative z-10 flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
 
         <nav className="hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">
           {navLinksData.map((link) => (
@@ -144,7 +182,7 @@ export function Navbar() {
       </div>
 
       <div
-        className={`sm:hidden flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-hidden
+        className={`relative z-10 sm:hidden flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-hidden
                      ${isOpen ? "max-h-[1000px] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0 pointer-events-none"}`}
       >
         <nav className="flex flex-col items-center space-y-4 text-base w-full">

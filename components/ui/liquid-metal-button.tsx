@@ -78,13 +78,9 @@ export function LiquidMetalButton({
       document.head.appendChild(style);
     }
 
-    const loadShader = async () => {
+    const initShader = () => {
       try {
-        if (shaderRef.current) {
-          if (shaderMount.current?.destroy) {
-            shaderMount.current.destroy();
-          }
-
+        if (shaderRef.current && !shaderMount.current) {
           shaderMount.current = new ShaderMount(
             shaderRef.current,
             liquidMetalFragmentShader,
@@ -110,13 +106,32 @@ export function LiquidMetalButton({
       }
     };
 
-    loadShader();
-
-    return () => {
+    const destroyShader = () => {
       if (shaderMount.current?.destroy) {
         shaderMount.current.destroy();
         shaderMount.current = null;
       }
+    };
+
+    const el = shaderRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          initShader();
+        } else {
+          destroyShader();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      destroyShader();
     };
   }, []);
 
@@ -200,7 +215,7 @@ export function LiquidMetalButton({
               <Sparkles
                 size={16}
                 style={{
-                  color: "#666666",
+                  color: "#ffffff",
                   filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.5))",
                   transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
                   transform: "scale(1)",
@@ -211,7 +226,7 @@ export function LiquidMetalButton({
               <span
                 style={{
                   fontSize: "14px",
-                  color: "#666666",
+                  color: "#ffffff",
                   fontWeight: 400,
                   textShadow: "0px 1px 2px rgba(0, 0, 0, 0.5)",
                   transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
