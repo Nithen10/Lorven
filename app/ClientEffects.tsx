@@ -15,23 +15,6 @@ export default function ClientEffects() {
 
     document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
 
-    const sections = [...document.querySelectorAll("main section[id]")];
-    const navLinks = [...document.querySelectorAll(".nav a[href^='#']")];
-    const activeObserver = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (!visible) return;
-        navLinks.forEach((link) => {
-          link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`);
-        });
-      },
-      { threshold: [0.18, 0.35, 0.55], rootMargin: "-18% 0px -56% 0px" }
-    );
-
-    sections.forEach((section) => activeObserver.observe(section));
-
     const field = document.querySelector(".particle-field") as HTMLElement | null;
     if (field && !field.dataset.ready) {
       field.dataset.ready = "true";
@@ -44,11 +27,6 @@ export default function ClientEffects() {
       }
     }
 
-    const reviewTrack = document.querySelector(".review-track") as HTMLElement | null;
-    if (reviewTrack && !reviewTrack.dataset.ready) {
-      reviewTrack.dataset.ready = "true";
-      reviewTrack.innerHTML += reviewTrack.innerHTML;
-    }
 
     const timeNode = document.getElementById("time");
     function tick() {
@@ -66,7 +44,6 @@ export default function ClientEffects() {
 
     return () => {
       revealObserver.disconnect();
-      activeObserver.disconnect();
       window.clearInterval(timer);
     };
   }, []);
