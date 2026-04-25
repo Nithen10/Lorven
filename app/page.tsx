@@ -4,6 +4,7 @@ import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { Navbar } from "@/components/ui/mini-navbar";
 import { PricingSection } from "@/components/ui/pricing-section";
 import { TiltCard } from "@/components/ui/tilt-card";
+import { ProductsScrollSection } from "@/components/products/ProductsScrollSection";
 
 export default function Page() {
   return (
@@ -131,15 +132,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="section products" id="products">
-          <h2 className="section-title">Our products</h2>
-          <div className="product-grid">
-            <TiltCard className="product-card" index={0}><h3>Cine Sketch</h3><strong>AI-Powered Story Sketches</strong><p>Visualize scenes instantly — converts concepts into storyboards and creative frames before filming begins.</p></TiltCard>
-            <TiltCard className="product-card" index={1}><h3>Cine Scribe</h3><strong>Intelligent Script Writing</strong><p>Turn ideas into structured scripts using intelligent AI tools with engaging dialogue and cinematic depth.</p></TiltCard>
-            <TiltCard className="product-card" index={2}><h3>Pitch Craft</h3><strong>Film Pitches &amp; Decks</strong><p>Create compelling film pitches and presentations that convey vision, emotion, and market appeal in minutes.</p></TiltCard>
-            <TiltCard className="product-card" index={3}><h3>Cine Flow</h3><strong>End-to-End Production</strong><p>Streamline creative workflows from initial concept through execution, enabling team collaboration and momentum.</p></TiltCard>
-          </div>
-        </section>
+        <ProductsScrollSection />
 
         <section className="section team" id="team">
           <h2 className="section-title">Meet our team</h2>
