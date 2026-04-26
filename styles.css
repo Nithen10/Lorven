@@ -111,7 +111,6 @@ button, input, textarea { font: inherit; }
   position: relative;
 }
 .hero {
-  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -119,36 +118,7 @@ button, input, textarea { font: inherit; }
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  max-width: none;
-  width: 100%;
-  margin: 0;
 }
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: -5% -5% -10% -10%;
-  background:
-    /* bright "sun" at the top-right corner */
-    radial-gradient(22% 30% at 100% 0%, rgba(255, 255, 255, .55), rgba(223, 243, 255, .32) 35%, transparent 70%),
-    /* single expanding beam from corner toward the title */
-    conic-gradient(from 212deg at 100% 0%,
-      transparent              0deg,
-      rgba(112, 190, 250, .14) 14deg,
-      rgba(223, 243, 255, .42) 28deg,
-      rgba(112, 190, 250, .14) 42deg,
-      transparent              56deg,
-      transparent              360deg
-    ),
-    /* wide blue corona that washes the whole hero in soft light */
-    radial-gradient(160% 150% at 100% 0%, rgba(112, 190, 250, .38), rgba(112, 190, 250, .14) 38%, rgba(112, 190, 250, .05) 70%, transparent 100%),
-    /* gentle counter-fill from the bottom-left so the opposite corner isn't pure black */
-    radial-gradient(85% 85% at 0% 100%, rgba(80, 130, 200, .14), transparent 75%);
-  filter: blur(2.5px);
-  pointer-events: none;
-  z-index: 0;
-}
-.hero > * { position: relative; z-index: 1; }
-
 .hero h1 {
   margin: 0;
   font-family: "Inter Tight", Inter, sans-serif;
