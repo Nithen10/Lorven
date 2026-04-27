@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HoverRevealButton } from "@/components/ui/button-5";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -130,9 +131,7 @@ function ProductScene({
           <h3>{title}</h3>
           <div className="product-stack-meta">
             <p>{body}</p>
-            <button className="product-stack-cta" type="button">
-              {cta}
-            </button>
+            <HoverRevealButton label={cta} size="md" />
           </div>
         </div>
         <div className="product-stack-gallery" aria-hidden="true">

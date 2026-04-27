@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 
 const AnimatedNavLink = ({
@@ -14,7 +15,7 @@ const AnimatedNavLink = ({
   return (
     <a
       href={href}
-      className={`group relative inline-block overflow-hidden h-5 flex items-center text-sm`}
+      className={`group relative inline-block overflow-hidden h-5 flex items-center text-sm font-semibold tracking-[0.12em] uppercase`}
       data-nav-href={href}
     >
       <div className="flex flex-col transition-transform duration-400 ease-out transform group-hover:-translate-y-1/2">
@@ -32,6 +33,8 @@ export function Navbar() {
   const [headerShapeClass, setHeaderShapeClass] = useState("rounded-full");
   const [activeSection, setActiveSection] = useState("");
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
+  const [indicator, setIndicator] = useState({ left: 0, top: 0, width: 0, height: 0, visible: false });
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -63,21 +66,66 @@ export function Navbar() {
     ] as HTMLElement[];
     if (sections.length === 0) return;
 
+    const ratios = new Map<string, number>();
+    sections.forEach((s) => ratios.set(s.id, 0));
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) {
-          setActiveSection(`#${visible.target.id}`);
-        }
+        entries.forEach((entry) => {
+          ratios.set(
+            entry.target.id,
+            entry.isIntersecting ? entry.intersectionRatio : 0
+          );
+        });
+        let bestId = "";
+        let bestRatio = 0;
+        ratios.forEach((ratio, id) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestId = id;
+          }
+        });
+        setActiveSection(bestRatio > 0 ? `#${bestId}` : "");
       },
-      { threshold: [0.18, 0.35, 0.55], rootMargin: "-18% 0px -56% 0px" }
+      {
+        threshold: Array.from({ length: 21 }, (_, i) => i * 0.05),
+        rootMargin: "-18% 0px -56% 0px",
+      }
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const measure = () => {
+      const nav = navRef.current;
+      if (!nav) return;
+      if (!activeSection) {
+        setIndicator((p) => ({ ...p, visible: false }));
+        return;
+      }
+      const link = nav.querySelector<HTMLElement>(`[data-nav-href="${activeSection}"]`);
+      if (!link) {
+        setIndicator((p) => ({ ...p, visible: false }));
+        return;
+      }
+      const navRect = nav.getBoundingClientRect();
+      const linkRect = link.getBoundingClientRect();
+      const PAD_X = 12;
+      const PAD_Y = 6;
+      setIndicator({
+        left: linkRect.left - navRect.left - PAD_X,
+        top: linkRect.top - navRect.top - PAD_Y,
+        width: linkRect.width + 2 * PAD_X,
+        height: linkRect.height + 2 * PAD_Y,
+        visible: true,
+      });
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [activeSection]);
 
   const navLinksData = [
     { label: "services", href: "#services" },
@@ -94,7 +142,7 @@ export function Navbar() {
       <a
         href="#home"
         aria-label="Lorven AI Studio home"
-        className="fixed top-4 left-6 z-30"
+        className="fixed top-[48px] left-6 z-30"
       >
         <img
           src="/logo-new.png"
@@ -103,8 +151,21 @@ export function Navbar() {
         />
       </a>
 
+      <div className="fixed top-[56px] right-6 z-30 flex items-center gap-4">
+        <Link
+          href="/login"
+          aria-label="Log in"
+          className="group relative inline-block overflow-hidden h-5 text-sm font-semibold tracking-[0.12em] uppercase"
+        >
+          <div className="flex flex-col transition-transform duration-[400ms] ease-out group-hover:-translate-y-1/2">
+            <span className="h-5 flex items-center text-white/75">LOG-IN</span>
+            <span className="h-5 flex items-center text-white">LOG-IN</span>
+          </div>
+        </Link>
+      </div>
+
       <header
-        className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-20
+        className={`fixed top-[56px] left-1/2 transform -translate-x-1/2 z-20
                      flex flex-col items-center
                      pl-8 pr-8 py-4
                      ${headerShapeClass}
@@ -152,7 +213,37 @@ export function Navbar() {
         />
         <div className="relative z-10 flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
 
-        <nav className="hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">
+        <nav ref={navRef} className="relative hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">
+          {/* Sliding glass indicator */}
+          <div
+            className="absolute rounded-full overflow-hidden pointer-events-none"
+            style={{
+              left: `${indicator.left}px`,
+              top: `${indicator.top}px`,
+              width: `${indicator.width}px`,
+              height: `${indicator.height}px`,
+              opacity: indicator.visible ? 1 : 0,
+              transition:
+                "left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1), width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease",
+            }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{ background: "rgba(255, 255, 255, 0.12)", borderRadius: "inherit" }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                boxShadow:
+                  "inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1), inset 1px 0 1px 0 rgba(255, 255, 255, 0.15), inset -1px 0 1px 0 rgba(255, 255, 255, 0.15)",
+                borderRadius: "inherit",
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{ border: "1px solid rgba(255, 255, 255, 0.25)", borderRadius: "inherit" }}
+            />
+          </div>
           {navLinksData.map((link) => (
             <AnimatedNavLink
               key={link.href}

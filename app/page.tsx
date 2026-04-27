@@ -5,14 +5,27 @@ import { Navbar } from "@/components/ui/mini-navbar";
 import { PricingSection } from "@/components/ui/pricing-section";
 import { TiltCard } from "@/components/ui/tilt-card";
 import { ProductsScrollSection } from "@/components/products/ProductsScrollSection";
+import { GridVignetteBackground } from "@/components/ui/vignette-grid-background";
+import BackgroundNoise from "@/components/ui/background-noise";
 
 export default function Page() {
   return (
     <>
       <ClientEffects />
 
+      <BackgroundNoise />
+      <GridVignetteBackground size={24} />
       <div className="ambient ambient-one"></div>
       <div className="ambient ambient-two"></div>
+
+      <a
+        href="#contact"
+        className="fixed top-0 left-0 right-0 z-40 h-8 bg-[#70befa] flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#5fb5f8] transition-colors"
+      >
+        <span>WELCOME TO LORVEN AI STUDIO</span>
+        <span aria-hidden="true">→</span>
+      </a>
+
       <Navbar />
 
       <main id="home">
@@ -22,14 +35,14 @@ export default function Page() {
           <p>We develop custom AI solutions for innovative companies.</p>
           <div className="hero-actions">
             <a href="#services"><LiquidMetalButton label="our services" /></a>
-            <a href="#contact"><HoverRevealButton label="contact us" /></a>
+            <a href="#contact"><HoverRevealButton label="contact us" size="md" /></a>
           </div>
         </section>
 
         <section className="intro section reveal">
           <p className="mega-watermark">Lorven</p>
           <h2>We&apos;re Lorven. We develop custom AI <em>solutions for innovative companies.</em></h2>
-          <a href="#contact"><HoverRevealButton label="Get in touch" /></a>
+          <a href="#contact"><HoverRevealButton label="Get in touch" size="md" /></a>
         </section>
 
         <section className="section services" id="services">
@@ -140,7 +153,6 @@ export default function Page() {
             <TiltCard className="team-card" index={0}><img src="https://framerusercontent.com/images/FuLkfY03g6UTvyUgiykCksQ60.png?width=600&height=600" alt="Team member" /><p>AI Developer</p><h3>Dave Jones</h3></TiltCard>
             <TiltCard className="team-card" index={1}><img src="https://framerusercontent.com/images/ZSaQbJuFS42W7zu7FI7QlZsxu58.png?width=600&height=600" alt="Team member" /><p>CEO</p><h3>Emily Branson</h3></TiltCard>
             <TiltCard className="team-card" index={2}><img src="https://framerusercontent.com/images/fmoq8UDKlfUrXummW5zaYwxCAZg.png?width=600&height=600" alt="Team member" /><p>Developer</p><h3>Jason Davis</h3></TiltCard>
-            <TiltCard className="team-card" index={3}><img src="https://framerusercontent.com/images/FCIhg4w8Oic6PzzMBeFQQ09s200.png?width=600&height=600" alt="Team member" /><p>COO</p><h3>Maria Wilson</h3></TiltCard>
           </div>
         </section>
 
