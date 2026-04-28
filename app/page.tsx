@@ -16,10 +16,12 @@ export default function Page() {
 
       <BackgroundNoise />
       <GridVignetteBackground size={24} />
+      <div className="ambient ambient-one"></div>
+      <div className="ambient ambient-two"></div>
 
       <a
         href="#contact"
-        className="fixed top-0 left-0 right-0 z-40 h-8 bg-black flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#1a1a1a] transition-colors"
+        className="fixed top-0 left-0 right-0 z-40 h-8 bg-[#70befa] flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#5fb5f8] transition-colors"
       >
         <span>WELCOME TO LORVEN AI STUDIO</span>
         <span aria-hidden="true">→</span>

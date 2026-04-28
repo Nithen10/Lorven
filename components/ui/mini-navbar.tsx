@@ -19,10 +19,10 @@ const AnimatedNavLink = ({
       data-nav-href={href}
     >
       <div className="flex flex-col transition-transform duration-400 ease-out transform group-hover:-translate-y-1/2">
-        <span className={isActive ? "text-black" : "text-gray-700"}>
+        <span className={isActive ? "text-white" : "text-gray-300"}>
           {children}
         </span>
-        <span className="text-black">{children}</span>
+        <span className="text-white">{children}</span>
       </div>
     </a>
   );
@@ -158,8 +158,8 @@ export function Navbar() {
           className="group relative inline-block overflow-hidden h-5 text-sm font-semibold tracking-[0.12em] uppercase"
         >
           <div className="flex flex-col transition-transform duration-[400ms] ease-out group-hover:-translate-y-1/2">
-            <span className="h-5 flex items-center text-black/75">LOG-IN</span>
-            <span className="h-5 flex items-center text-black">LOG-IN</span>
+            <span className="h-5 flex items-center text-white/75">LOG-IN</span>
+            <span className="h-5 flex items-center text-white">LOG-IN</span>
           </div>
         </Link>
       </div>
@@ -189,7 +189,7 @@ export function Navbar() {
         <div
           className="absolute inset-0 z-[1]"
           style={{
-            background: "rgba(0, 0, 0, 0.06)",
+            background: "rgba(255, 255, 255, 0.06)",
             borderRadius: "inherit",
           }}
         />
@@ -198,7 +198,7 @@ export function Navbar() {
           className="absolute inset-0 z-[3]"
           style={{
             boxShadow:
-              "inset 0 1.5px 1px 0 rgba(0, 0, 0, 0.6), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.15), inset 1px 0 1px 0 rgba(0, 0, 0, 0.2), inset -1px 0 1px 0 rgba(0, 0, 0, 0.2)",
+              "inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.15), inset 1px 0 1px 0 rgba(255, 255, 255, 0.2), inset -1px 0 1px 0 rgba(255, 255, 255, 0.2)",
             borderRadius: "inherit",
           }}
         />
@@ -206,7 +206,7 @@ export function Navbar() {
         <div
           className="absolute inset-0 z-[4]"
           style={{
-            border: "1px solid rgba(0, 0, 0, 0.3)",
+            border: "1px solid rgba(255, 255, 255, 0.3)",
             borderRadius: "inherit",
             pointerEvents: "none",
           }}
@@ -229,19 +229,19 @@ export function Navbar() {
           >
             <div
               className="absolute inset-0"
-              style={{ background: "rgba(0, 0, 0, 0.12)", borderRadius: "inherit" }}
+              style={{ background: "rgba(255, 255, 255, 0.12)", borderRadius: "inherit" }}
             />
             <div
               className="absolute inset-0"
               style={{
                 boxShadow:
-                  "inset 0 1px 1px 0 rgba(0, 0, 0, 0.5), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.1), inset 1px 0 1px 0 rgba(0, 0, 0, 0.15), inset -1px 0 1px 0 rgba(0, 0, 0, 0.15)",
+                  "inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1), inset 1px 0 1px 0 rgba(255, 255, 255, 0.15), inset -1px 0 1px 0 rgba(255, 255, 255, 0.15)",
                 borderRadius: "inherit",
               }}
             />
             <div
               className="absolute inset-0"
-              style={{ border: "1px solid rgba(0, 0, 0, 0.25)", borderRadius: "inherit" }}
+              style={{ border: "1px solid rgba(255, 255, 255, 0.25)", borderRadius: "inherit" }}
             />
           </div>
           {navLinksData.map((link) => (
@@ -256,7 +256,7 @@ export function Navbar() {
         </nav>
 
         <button
-          className="sm:hidden flex items-center justify-center w-8 h-8 text-gray-700 focus:outline-none"
+          className="sm:hidden flex items-center justify-center w-8 h-8 text-gray-300 focus:outline-none"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close Menu" : "Open Menu"}
         >
@@ -281,7 +281,7 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className={`${activeSection === link.href ? "text-black" : "text-gray-700"} hover:text-black transition-colors w-full text-center`}
+              className={`${activeSection === link.href ? "text-white" : "text-gray-300"} hover:text-white transition-colors w-full text-center`}
               onClick={() => setIsOpen(false)}
             >
               {link.label}

@@ -119,7 +119,7 @@ function ServicePanels() {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
         <div className="grid grid-cols-2 gap-16 max-w-[1360px] mx-auto w-full px-10">
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-black/10">
+          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.img
                 key={current.image}
@@ -142,22 +142,22 @@ function ServicePanels() {
                 exit={{ opacity: 0, x: -16 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="text-xs tracking-[0.18em] uppercase text-black">
+                <span className="text-xs tracking-[0.18em] uppercase text-[#70befa]">
                   {String(active + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
                 </span>
-                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-black">
+                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-white">
                   {current.title}
                 </h3>
-                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#666666] max-w-prose">
+                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#9c9c9c] max-w-prose">
                   {current.body}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
         </div>
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 h-48 w-px bg-black/10">
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 h-48 w-px bg-white/10">
           <motion.div
-            className="absolute inset-0 bg-black origin-top"
+            className="absolute inset-0 bg-[#70befa] origin-top"
             style={{ scaleY: scrollYProgress }}
           />
         </div>
@@ -203,16 +203,16 @@ export function ServicesScroll() {
               <img
                 src={s.image}
                 alt={s.alt}
-                className="aspect-[3/4] w-full object-cover rounded-2xl border border-black/10"
+                className="aspect-[3/4] w-full object-cover rounded-2xl border border-white/10"
               />
               <div>
-                <span className="text-xs tracking-[0.18em] uppercase text-black">
+                <span className="text-xs tracking-[0.18em] uppercase text-[#70befa]">
                   {String(i + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
                 </span>
-                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-black">
+                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-white">
                   {s.title}
                 </h3>
-                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#666666] max-w-prose">
+                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#9c9c9c] max-w-prose">
                   {s.body}
                 </p>
               </div>
@@ -235,16 +235,16 @@ export function ServicesScroll() {
             <img
               src={s.image}
               alt={s.alt}
-              className="aspect-[3/4] w-full object-cover rounded-2xl border border-black/10"
+              className="aspect-[3/4] w-full object-cover rounded-2xl border border-white/10"
               loading="lazy"
             />
-            <span className="mt-6 block text-xs tracking-[0.18em] uppercase text-black">
+            <span className="mt-6 block text-xs tracking-[0.18em] uppercase text-[#70befa]">
               {String(i + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
             </span>
-            <h3 className="mt-3 text-3xl font-medium leading-[1.05] text-black">
+            <h3 className="mt-3 text-3xl font-medium leading-[1.05] text-white">
               {s.title}
             </h3>
-            <p className="mt-4 text-base leading-relaxed text-[#666666]">{s.body}</p>
+            <p className="mt-4 text-base leading-relaxed text-[#9c9c9c]">{s.body}</p>
           </div>
         ))}
       </div>

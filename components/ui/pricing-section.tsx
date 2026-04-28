@@ -81,20 +81,20 @@ export function PricingSection() {
           />
           <div
             className="absolute inset-0 z-[1]"
-            style={{ background: "rgba(0, 0, 0, 0.06)", borderRadius: "inherit" }}
+            style={{ background: "rgba(255, 255, 255, 0.06)", borderRadius: "inherit" }}
           />
           <div
             className="absolute inset-0 z-[2]"
             style={{
               boxShadow:
-                "inset 0 1.5px 1px 0 rgba(0, 0, 0, 0.6), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.15), inset 1px 0 1px 0 rgba(0, 0, 0, 0.2), inset -1px 0 1px 0 rgba(0, 0, 0, 0.2)",
+                "inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.15), inset 1px 0 1px 0 rgba(255, 255, 255, 0.2), inset -1px 0 1px 0 rgba(255, 255, 255, 0.2)",
               borderRadius: "inherit",
             }}
           />
           <div
             className="absolute inset-0 z-[3]"
             style={{
-              border: "1px solid rgba(0, 0, 0, 0.3)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
               borderRadius: "inherit",
               pointerEvents: "none",
             }}
@@ -113,20 +113,20 @@ export function PricingSection() {
           >
             <div
               className="absolute inset-0"
-              style={{ background: "rgba(0, 0, 0, 0.12)", borderRadius: "inherit" }}
+              style={{ background: "rgba(255, 255, 255, 0.12)", borderRadius: "inherit" }}
             />
             <div
               className="absolute inset-0"
               style={{
                 boxShadow:
-                  "inset 0 1px 1px 0 rgba(0, 0, 0, 0.5), inset 0 -1px 1px 0 rgba(0, 0, 0, 0.1), inset 1px 0 1px 0 rgba(0, 0, 0, 0.15), inset -1px 0 1px 0 rgba(0, 0, 0, 0.15)",
+                  "inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), inset 0 -1px 1px 0 rgba(255, 255, 255, 0.1), inset 1px 0 1px 0 rgba(255, 255, 255, 0.15), inset -1px 0 1px 0 rgba(255, 255, 255, 0.15)",
                 borderRadius: "inherit",
               }}
             />
             <div
               className="absolute inset-0"
               style={{
-                border: "1px solid rgba(0, 0, 0, 0.25)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
                 borderRadius: "inherit",
               }}
             />
@@ -138,7 +138,7 @@ export function PricingSection() {
             className="relative z-10 rounded-full px-6 py-2.5 text-sm font-medium cursor-pointer"
             style={{
               background: "transparent",
-              color: !isAnnual ? "#0a0a0a" : "#666666",
+              color: !isAnnual ? "#fff" : "#9c9c9c",
               border: "none",
               transition: "color 0.3s ease",
             }}
@@ -151,7 +151,7 @@ export function PricingSection() {
             className="relative z-10 rounded-full px-6 py-2.5 text-sm font-medium cursor-pointer"
             style={{
               background: "transparent",
-              color: isAnnual ? "#0a0a0a" : "#666666",
+              color: isAnnual ? "#fff" : "#9c9c9c",
               border: "none",
               transition: "color 0.3s ease",
             }}
