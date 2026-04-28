@@ -4,6 +4,7 @@ import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { Navbar } from "@/components/ui/mini-navbar";
 import { PricingSection } from "@/components/ui/pricing-section";
 import { TiltCard } from "@/components/ui/tilt-card";
+import { ServicesScroll } from "@/components/ui/services-scroll";
 import { ProductsScrollSection } from "@/components/products/ProductsScrollSection";
 import { GridVignetteBackground } from "@/components/ui/vignette-grid-background";
 import BackgroundNoise from "@/components/ui/background-noise";
@@ -15,12 +16,10 @@ export default function Page() {
 
       <BackgroundNoise />
       <GridVignetteBackground size={24} />
-      <div className="ambient ambient-one"></div>
-      <div className="ambient ambient-two"></div>
 
       <a
         href="#contact"
-        className="fixed top-0 left-0 right-0 z-40 h-8 bg-[#70befa] flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#5fb5f8] transition-colors"
+        className="fixed top-0 left-0 right-0 z-40 h-8 bg-black flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#1a1a1a] transition-colors"
       >
         <span>WELCOME TO LORVEN AI STUDIO</span>
         <span aria-hidden="true">→</span>
@@ -45,73 +44,7 @@ export default function Page() {
           <a href="#contact"><HoverRevealButton label="Get in touch" size="md" /></a>
         </section>
 
-        <section className="section services" id="services">
-          <h2 className="section-title">What we do</h2>
-          <div className="service-grid">
-            <TiltCard className="service-card span-6" index={0}>
-              <div className="chat-preview">
-                <div className="message-row">
-                  <svg className="chat-star" viewBox="0 0 100 100" width="28" height="28">
-                    <path d="M50 5 C52 38,62 48,95 50 C62 52,52 62,50 95 C48 62,38 52,5 50 C38 48,48 38,50 5Z" fill="#70befa"/>
-                    <circle cx="80" cy="20" r="2.5" fill="#70befa" opacity=".5"/>
-                    <circle cx="15" cy="75" r="2" fill="#70befa" opacity=".6"/>
-                  </svg>
-                  <div><strong>You</strong> <span>10:30 AM</span><p>Write a dramatic opening scene set in a rainy Mumbai street at night.</p></div>
-                </div>
-                <div className="message-row">
-                  <svg className="chat-star" viewBox="0 0 100 100" width="28" height="28">
-                    <path d="M50 5 C52 38,62 48,95 50 C62 52,52 62,50 95 C48 62,38 52,5 50 C38 48,48 38,50 5Z" fill="#70befa"/>
-                    <circle cx="80" cy="20" r="2.5" fill="#70befa" opacity=".5"/>
-                    <circle cx="15" cy="75" r="2" fill="#70befa" opacity=".6"/>
-                  </svg>
-                  <div><strong>Cine Scribe</strong> <span>10:30 AM</span><p>Scene 1 — EXT. MUMBAI STREET — NIGHT. Rain hammers the neon-lit pavement as a figure emerges from the shadows...</p></div>
-                </div>
-                <div className="input-bar"><span>Describe your next scene...</span><button aria-label="Send">^</button></div>
-              </div>
-              <h3>AI Script Writing</h3>
-              <p>Transform your ideas into structured, compelling scripts using our intelligent AI tools with engaging dialogue and cinematic depth.</p>
-            </TiltCard>
-            <TiltCard className="service-card span-6" index={1}>
-              <div className="image-generator">
-                <div className="stars"></div>
-                <button>generating <span>image...</span></button>
-                <div className="input-bar"><span>Generate an image of...</span><button>Generate</button></div>
-              </div>
-              <h3>Story Visualization</h3>
-              <p>Visualize scenes instantly — our AI-powered tools convert concepts into storyboards, sketches, and creative frames before production begins.</p>
-            </TiltCard>
-            <TiltCard className="service-card span-4" index={2}>
-              <div className="automation-orbit">
-                <span>*</span><span>◇</span><span>#</span><span>◆</span><div><strong>100+</strong><small>Automations</small></div>
-              </div>
-              <h3>Production Workflows</h3>
-              <p>Streamline creative workflows from initial concept through execution, enabling smooth team collaboration across production stages.</p>
-            </TiltCard>
-            <TiltCard className="service-card span-4" index={3}>
-              <div className="llm-stack">
-                <div></div><div></div><div></div><div></div>
-                <p>Where do quokka&apos;s live?<span>Quokka&apos;s live on Rottnest Island.</span></p>
-                <div className="input-bar"><span>Write your prompt...</span><button aria-label="Send">^</button></div>
-              </div>
-              <h3>AI Story Engine</h3>
-              <p>Turn raw ideas into unforgettable stories with our intelligent story engine that accelerates story development and content creation at scale.</p>
-            </TiltCard>
-            <TiltCard className="service-card span-4" index={4}>
-              <div className="pitch-deck">
-                <div className="slide slide-back"></div>
-                <div className="slide slide-mid"></div>
-                <div className="slide slide-front">
-                  <div className="slide-header"><span className="slide-dot"></span><span className="slide-dot"></span><span className="slide-dot"></span></div>
-                  <p className="slide-title">Film Pitch</p>
-                  <div className="slide-bars"><span></span><span></span><span></span></div>
-                  <p className="slide-label">Slide 1 of 12</p>
-                </div>
-              </div>
-              <h3>Film Pitch &amp; Decks</h3>
-              <p>Create compelling film pitches and presentations that communicate vision, emotion, and market potential to stakeholders in minutes.</p>
-            </TiltCard>
-          </div>
-        </section>
+        <ServicesScroll />
 
         <section className="section process" id="process">
           <h2 className="section-title">The process</h2>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles.css";
+import { SmoothScroll } from "./SmoothScroll";
 
 export const metadata: Metadata = {
   title: "Lorven AI Studio",
@@ -17,7 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }
