@@ -142,10 +142,13 @@ button, input, textarea { font: inherit; }
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  align-items: flex-start;
+  justify-content: flex-end;
+  text-align: left;
   overflow: hidden;
+  max-width: none;
+  margin: 0;
+  padding: 0 0 240px 40px;
 }
 .hero h1 {
   margin: 0;
@@ -177,7 +180,42 @@ button, input, textarea { font: inherit; }
   mask-image: radial-gradient(55% 35% at 65% 50%, #000, transparent 70%);
   animation: drift 22s linear infinite;
   opacity: .35;
+  z-index: 1;
+  pointer-events: none;
 }
+.hero-3d {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: none;
+  background: transparent;
+  transform: translate(28%, 8%);
+}
+.hero-3d > * { width: 100%; height: 100%; }
+.hero-3d canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  touch-action: none;
+  background: transparent !important;
+}
+.hero-3d a[href*="spline"],
+.hero-3d a[href*="Spline"],
+.hero-3d [aria-label*="Spline" i],
+.hero-3d [class*="spline-watermark" i] { display: none !important; }
+.hero-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  pointer-events: none;
+}
+.hero-content h1,
+.hero-content p { pointer-events: none; }
+.hero-content .hero-actions { pointer-events: auto; }
 
 .intro { min-height: 820px; display: grid; place-items: center; text-align: center; padding-bottom: 80px; }
 .intro h2 {
