@@ -37,6 +37,10 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 section[id] { scroll-margin-top: 110px; }
+
+@media (min-width: 768px) {
+  section#services { scroll-margin-top: -290px; }
+}
 body {
   margin: 0;
   min-width: 320px;

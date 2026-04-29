@@ -13,6 +13,7 @@ import { ZoomParallax } from './zoom-parallax';
 type Service = {
   title: string;
   body: string;
+  features: string[];
   image: string;
   alt: string;
 };
@@ -21,6 +22,12 @@ const SERVICES: Service[] = [
   {
     title: 'AI Script Writing',
     body: 'Transform your ideas into structured, compelling scripts using our intelligent AI tools with engaging dialogue and cinematic depth.',
+    features: [
+      'Genre-aware story structure',
+      'Industry-standard formatting',
+      'Dialogue with character voice',
+      'Iterate scenes in seconds',
+    ],
     image:
       'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600&q=80&auto=format&fit=crop',
     alt: 'Vintage typewriter — scriptwriting',
@@ -28,6 +35,12 @@ const SERVICES: Service[] = [
   {
     title: 'Story Visualization',
     body: 'Visualize scenes instantly — our AI-powered tools convert concepts into storyboards, sketches, and creative frames before production begins.',
+    features: [
+      'Storyboards generated in minutes',
+      'Scene-by-scene visual frames',
+      'Style-consistent across shots',
+      'Director-ready board exports',
+    ],
     image:
       'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1600&q=80&auto=format&fit=crop',
     alt: 'Hand-drawn film storyboard panels',
@@ -35,6 +48,12 @@ const SERVICES: Service[] = [
   {
     title: 'Production Workflows',
     body: 'Streamline creative workflows from initial concept through execution, enabling smooth team collaboration across production stages.',
+    features: [
+      'Concept-to-call-sheet pipeline',
+      'Real-time team collaboration',
+      'Asset and version tracking',
+      'Cross-department handoffs',
+    ],
     image:
       'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop',
     alt: 'Film crew on set with cinema camera',
@@ -42,6 +61,12 @@ const SERVICES: Service[] = [
   {
     title: 'AI Story Engine',
     body: 'Turn raw ideas into unforgettable stories with our intelligent story engine that accelerates story development and content creation at scale.',
+    features: [
+      'Premise to outline in one click',
+      'Beat-by-beat narrative engine',
+      'Genre and tone calibration',
+      'Generate variations on demand',
+    ],
     image:
       'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=1600&q=80&auto=format&fit=crop',
     alt: 'Open book with light streaming out',
@@ -49,6 +74,12 @@ const SERVICES: Service[] = [
   {
     title: 'Film Pitch & Decks',
     body: 'Create compelling film pitches and presentations that communicate vision, emotion, and market potential to stakeholders in minutes.',
+    features: [
+      'Vision-driven slide design',
+      'Emotional logline crafting',
+      'Market and comp positioning',
+      'Investor-ready in minutes',
+    ],
     image:
       'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=1600&q=80&auto=format&fit=crop',
     alt: 'Cinema projector beam in a dark theater',
@@ -117,9 +148,9 @@ function ServicePanels() {
       className="relative"
       style={{ height: `${SERVICES.length * PANEL_VH}vh` }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        <div className="grid grid-cols-2 gap-16 max-w-[1360px] mx-auto w-full px-10">
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="grid grid-cols-2 w-full h-full">
+          <div className="relative h-full overflow-hidden">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.img
                 key={current.image}
@@ -133,24 +164,132 @@ function ServicePanels() {
               />
             </AnimatePresence>
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center pl-12 pr-20 lg:pl-20 lg:pr-24 relative">
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={current.title}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: { staggerChildren: 0.09, delayChildren: 0.1 },
+                  },
+                  exit: {
+                    opacity: 0,
+                    x: -20,
+                    transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] },
+                  },
+                }}
+                className="relative"
               >
-                <span className="text-xs tracking-[0.18em] uppercase text-[#70befa]">
-                  {String(active + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-                </span>
-                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-white">
+                <motion.span
+                  variants={{
+                    hidden: { opacity: 0, scale: 1.12 },
+                    visible: {
+                      opacity: 0.07,
+                      scale: 1,
+                      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  aria-hidden="true"
+                  className="absolute -top-16 right-0 select-none pointer-events-none leading-none font-medium text-[#70befa] text-[200px] md:text-[260px] lg:text-[320px] -z-10"
+                  style={{
+                    fontFamily: '"Inter Tight", Inter, sans-serif',
+                    letterSpacing: '-0.05em',
+                  }}
+                >
+                  {String(active + 1).padStart(2, '0')}
+                </motion.span>
+
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  className="flex items-center gap-3"
+                >
+                  <span className="h-px w-10 bg-[#70befa]" />
+                  <span className="text-xs tracking-[0.22em] uppercase text-[#70befa]">
+                    {String(active + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
+                  </span>
+                </motion.div>
+
+                <motion.h3
+                  variants={{
+                    hidden: { opacity: 0, y: 28 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  className="mt-5 text-5xl md:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-transparent bg-clip-text"
+                  style={{
+                    fontFamily: '"Inter Tight", Inter, sans-serif',
+                    backgroundImage: 'linear-gradient(90deg, #ffffff 20%, #70befa 92%)',
+                    WebkitBackgroundClip: 'text',
+                  }}
+                >
                   {current.title}
-                </h3>
-                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#9c9c9c] max-w-prose">
+                </motion.h3>
+
+                <motion.p
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+                    },
+                  }}
+                  className="mt-7 text-base md:text-lg leading-relaxed text-[#9c9c9c] max-w-prose"
+                >
                   {current.body}
-                </p>
+                </motion.p>
+
+                <motion.ul
+                  variants={{
+                    hidden: {},
+                    visible: {
+                      transition: { staggerChildren: 0.09, delayChildren: 0.1 },
+                    },
+                  }}
+                  className="mt-10 space-y-4 max-w-prose"
+                >
+                  {current.features.map((f) => (
+                    <motion.li
+                      key={f}
+                      variants={{
+                        hidden: { opacity: 0, x: -16 },
+                        visible: {
+                          opacity: 1,
+                          x: 0,
+                          transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                        },
+                      }}
+                      className="flex items-start gap-4 text-[#dff3ff] text-base md:text-lg"
+                    >
+                      <motion.span
+                        variants={{
+                          hidden: { scaleX: 0 },
+                          visible: {
+                            scaleX: 1,
+                            transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+                          },
+                        }}
+                        className="mt-[14px] h-px w-6 bg-[#70befa] origin-left flex-shrink-0"
+                      />
+                      <span>{f}</span>
+                    </motion.li>
+                  ))}
+                </motion.ul>
               </motion.div>
             </AnimatePresence>
           </div>
