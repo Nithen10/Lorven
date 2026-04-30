@@ -1,4 +1,4 @@
-import { SplineHero } from "@/components/ui/spline-hero";
+import { SplineRobot } from "@/components/ui/spline-robot";
 import ClientEffects from "./ClientEffects";
 import { HoverRevealButton } from "@/components/ui/button-5";
 import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
@@ -34,10 +34,11 @@ export default function Page() {
         <section className="hero section reveal">
           <div className="particle-field" aria-hidden="true"></div>
           <div className="hero-3d" aria-hidden="true">
-            <SplineHero />
+            <SplineRobot />
           </div>
           <div className="hero-content">
             <h1>Lorven AI studio.</h1>
+            <p className="hero-catchphrase"><em>Where intelligence meets imagination.</em></p>
             <p>We develop custom AI solutions for innovative companies.</p>
             <div className="hero-actions">
               <a href="#services"><LiquidMetalButton label="our services" /></a>

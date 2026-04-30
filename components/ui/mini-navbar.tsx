@@ -18,11 +18,10 @@ const AnimatedNavLink = ({
       className={`group relative inline-block overflow-hidden h-5 flex items-center text-sm font-semibold tracking-[0.12em] uppercase`}
       data-nav-href={href}
     >
-      <div className="flex flex-col transition-transform duration-400 ease-out transform group-hover:-translate-y-1/2">
+      <div className="flex flex-col">
         <span className={isActive ? "text-white" : "text-gray-300"}>
           {children}
         </span>
-        <span className="text-white">{children}</span>
       </div>
     </a>
   );
