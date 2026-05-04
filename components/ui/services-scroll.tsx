@@ -1,14 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
-} from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { ZoomParallax } from './zoom-parallax';
+import { AnimatedScroll } from './animated-scroll';
 
 type Service = {
   title: string;
@@ -85,86 +79,6 @@ const PARALLAX_IMAGES = [
     alt: 'Editing suite',
   },
 ];
-
-const PANEL_VH = 60;
-
-function ServicePanels() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end end'],
-  });
-  const indexMV = useTransform(scrollYProgress, [0, 1], [0, SERVICES.length]);
-
-  useMotionValueEvent(indexMV, 'change', (v) => {
-    const next = Math.min(SERVICES.length - 1, Math.max(0, Math.floor(v)));
-    setActive((prev) => (prev === next ? prev : next));
-  });
-
-  useEffect(() => {
-    SERVICES.forEach((s) => {
-      const img = new Image();
-      img.src = s.image;
-    });
-  }, []);
-
-  const current = SERVICES[active];
-
-  return (
-    <div
-      ref={ref}
-      className="relative"
-      style={{ height: `${SERVICES.length * PANEL_VH}vh` }}
-    >
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center">
-        <div className="grid grid-cols-2 gap-16 max-w-[1360px] mx-auto w-full px-10">
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.img
-                key={current.image}
-                src={current.image}
-                alt={current.alt}
-                className="absolute inset-0 w-full h-full object-cover"
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 16 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              />
-            </AnimatePresence>
-          </div>
-          <div className="flex flex-col justify-center">
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.div
-                key={current.title}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <span className="text-xs tracking-[0.18em] uppercase text-[#70befa]">
-                  {String(active + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-                </span>
-                <h3 className="mt-4 text-4xl md:text-5xl font-medium leading-[1.05] text-white">
-                  {current.title}
-                </h3>
-                <p className="mt-6 text-base md:text-lg leading-relaxed text-[#9c9c9c] max-w-prose">
-                  {current.body}
-                </p>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 h-48 w-px bg-white/10">
-          <motion.div
-            className="absolute inset-0 bg-[#70befa] origin-top"
-            style={{ scaleY: scrollYProgress }}
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function ServicesScroll() {
   const [reduced, setReduced] = useState(false);
@@ -251,7 +165,7 @@ export function ServicesScroll() {
 
       <div className="hidden md:block">
         <ZoomParallax images={PARALLAX_IMAGES} />
-        <ServicePanels />
+        <AnimatedScroll services={SERVICES} />
       </div>
     </section>
   );

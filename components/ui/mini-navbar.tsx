@@ -131,7 +131,6 @@ export function Navbar() {
     { label: "process", href: "#process" },
     { label: "products", href: "#products" },
     { label: "team", href: "#team" },
-    { label: "pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
     { label: "contact", href: "#contact" },
   ];

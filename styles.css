@@ -269,7 +269,7 @@ h1,
   pointer-events: auto;
   touch-action: none;
   background: transparent;
-  transform: translate(18%, 24%);
+  transform: translate(18%, 16%);
 }
 
 .hero-3d>* {

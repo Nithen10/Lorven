@@ -3,9 +3,9 @@ import ClientEffects from "./ClientEffects";
 import { HoverRevealButton } from "@/components/ui/button-5";
 import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { Navbar } from "@/components/ui/mini-navbar";
-import { PricingSection } from "@/components/ui/pricing-section";
 import { TiltCard } from "@/components/ui/tilt-card";
 import { ServicesScroll } from "@/components/ui/services-scroll";
+import { ProcessSection } from "@/components/ui/process-section";
 import { ProductsScrollSection } from "@/components/products/ProductsScrollSection";
 import { GridVignetteBackground } from "@/components/ui/vignette-grid-background";
 import BackgroundNoise from "@/components/ui/background-noise";
@@ -55,37 +55,7 @@ export default function Page() {
 
         <ServicesScroll />
 
-        <section className="section process" id="process">
-          <h2 className="section-title">The process</h2>
-          <div className="process-grid">
-            <TiltCard className="process-card" index={0}>
-              <div className="logo-matrix"><span>▾</span><span>◎</span><span>*</span><span>◆</span><span>*</span><span>~</span></div>
-              <h3><span>01</span> Analyze</h3>
-              <p>We begin by understanding your storytelling vision, analyzing your creative workflows and identifying where AI can accelerate your production pipeline.</p>
-            </TiltCard>
-            <TiltCard className="process-card" index={1}>
-              <div className="code-window">
-                <div className="tabs"><span></span><span></span><span></span><b>HTML</b><em>React</em><em>CSS</em></div>
-                <pre>{`1  <html lang="en">
-2  <head>
-3    <meta charset="UTF-8">
-4    <meta name="viewport"
-5      content="width=device-width">
-6  <title>Lorven</title>`}</pre>
-              </div>
-              <h3><span>02</span> Build &amp; Implement</h3>
-              <p>Our team builds AI-powered tools tailored to your content creation needs — from scriptwriting and visualization to pitch deck generation.</p>
-            </TiltCard>
-            <TiltCard className="process-card" index={2}>
-              <div className="update-panel">
-                <button>Update available</button>
-                <p>Security <span>+8%</span></p><p>Operational cost <span>-11%</span></p><p>Workflow efficiency <span>+25%</span></p><p>Software speed <span>+38%</span></p>
-              </div>
-              <h3><span>03</span> Maintain &amp; improve</h3>
-              <p>After deployment, we continuously refine and enhance your AI storytelling tools to keep pace with evolving production demands.</p>
-            </TiltCard>
-          </div>
-        </section>
+        <ProcessSection />
 
         <ProductsScrollSection />
 
@@ -98,15 +68,13 @@ export default function Page() {
           </div>
         </section>
 
-        <PricingSection />
-
         <section className="section faq" id="faq">
           <div className="center-title"><h2>Answers</h2><p>We&apos;ve gone ahead and answered some of the questions you might have.</p></div>
           <div className="faq-grid">
-            <TiltCard className="faq-card" index={0}><details><summary>What services do you offer?</summary><p>Custom AI assistants, automations, content systems, LLM workflows, and strategy.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={1}><details><summary>Are your solutions secure?</summary><p>Security and privacy are part of the design from day one.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={2}><details><summary>Do you offer continuous support?</summary><p>Yes, we monitor, maintain, and improve deployed systems.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={3}><details><summary>Can I cancel my subscription at any time?</summary><p>Yes, monthly plans can be cancelled before the next billing cycle.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={0}><details><summary>What does Lorven AI Studio do?</summary><p>We build custom AI-powered tools for filmmakers, content teams, and studios — accelerating every step from scriptwriting and storyboarding to pitch decks and production workflows.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={1}><details><summary>Which AI products do you offer?</summary><p>Cine Scribe for AI scriptwriting, Cine Sketch for instant storyboards, Pitch Craft for compelling pitch decks, and Cine Flow for end-to-end production workflows. Custom tools are built on request.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={2}><details><summary>Do I need technical experience to use the tools?</summary><p>No. Everything is designed for creative teams — write a prompt, sketch an idea, get results. We handle the AI plumbing.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={3}><details><summary>How do I get started with Lorven?</summary><p>Book a discovery call through our contact form. We&apos;ll learn your pipeline, recommend the right product mix, and have a tailored AI workflow up and running in days.</p></details></TiltCard>
           </div>
         </section>
 
