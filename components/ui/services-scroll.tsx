@@ -15,16 +15,14 @@ const SERVICES: Service[] = [
   {
     title: 'AI Script Writing',
     body: 'Transform your ideas into structured, compelling scripts using our intelligent AI tools with engaging dialogue and cinematic depth.',
-    image:
-      'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Vintage typewriter — scriptwriting',
+    image: '/img9.webp',
+    alt: 'img9',
   },
   {
     title: 'Story Visualization',
     body: 'Visualize scenes instantly — our AI-powered tools convert concepts into storyboards, sketches, and creative frames before production begins.',
-    image:
-      'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Hand-drawn film storyboard panels',
+    image: '/img10.webp',
+    alt: 'img10',
   },
   {
     title: 'Production Workflows',
@@ -34,49 +32,45 @@ const SERVICES: Service[] = [
     alt: 'Film crew on set with cinema camera',
   },
   {
-    title: 'AI Story Engine',
-    body: 'Turn raw ideas into unforgettable stories with our intelligent story engine that accelerates story development and content creation at scale.',
-    image:
-      'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Open book with light streaming out',
-  },
-  {
     title: 'Film Pitch & Decks',
     body: 'Create compelling film pitches and presentations that communicate vision, emotion, and market potential to stakeholders in minutes.',
-    image:
-      'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Cinema projector beam in a dark theater',
+    image: '/img11.webp',
+    alt: 'img11',
   },
 ];
 
 const PARALLAX_IMAGES = [
   {
-    src: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Film set',
+    src: '/img6.webp',
+    alt: 'img6',
   },
   {
-    src: 'https://images.unsplash.com/photo-1518929458119-e5bf444c30f4?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Film reel',
+    src: '/img4.webp',
+    alt: 'img4',
   },
   {
-    src: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=1600&q=80&auto=format&fit=crop',
+    src: '/parallax-center.mp4',
     alt: 'Cinema projector',
   },
   {
-    src: 'https://images.unsplash.com/photo-1500021804447-2ca2eaaaabeb?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Camera operator',
+    src: '/img3.png',
+    alt: 'img3',
   },
   {
-    src: 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Lighting rig',
+    src: '/img7.webp',
+    alt: 'img7',
   },
   {
-    src: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Storyboard',
+    src: '/img8.webp',
+    alt: 'img8',
   },
   {
-    src: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1600&q=80&auto=format&fit=crop',
-    alt: 'Editing suite',
+    src: '/img5.webp',
+    alt: 'img5',
+  },
+  {
+    src: '/parallax-center.webp',
+    alt: 'Shades of Mumbai poster',
   },
 ];
 
@@ -99,14 +93,25 @@ export function ServicesScroll() {
       >
         <h2 className="section-title">What we do</h2>
         <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-3">
-          {PARALLAX_IMAGES.slice(0, 4).map((img) => (
-            <img
-              key={img.src}
-              src={img.src}
-              alt={img.alt}
-              className="aspect-square w-full object-cover rounded-lg"
-            />
-          ))}
+          {PARALLAX_IMAGES.slice(0, 4).map((img) =>
+            img.src.endsWith('.mp4') ? (
+              <video
+                key={img.src}
+                src={img.src}
+                muted
+                playsInline
+                preload="metadata"
+                className="aspect-square w-full object-cover rounded-lg"
+              />
+            ) : (
+              <img
+                key={img.src}
+                src={img.src}
+                alt={img.alt}
+                className="aspect-square w-full object-cover rounded-lg"
+              />
+            ),
+          )}
         </div>
         <div className="mt-20 flex flex-col gap-20">
           {SERVICES.map((s, i) => (
