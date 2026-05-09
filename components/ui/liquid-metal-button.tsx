@@ -225,9 +225,11 @@ export function LiquidMetalButton({
             {viewMode === "text" && (
               <span
                 style={{
+                  fontFamily: "Inter, sans-serif",
                   fontSize: "14px",
                   color: "#ffffff",
-                  fontWeight: 400,
+                  fontWeight: 600,
+                  letterSpacing: "0.04em",
                   textShadow: "0px 1px 2px rgba(0, 0, 0, 0.5)",
                   transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
                   transform: "scale(1)",

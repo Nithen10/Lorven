@@ -1,5 +1,7 @@
-import { SplineRobot } from "@/components/ui/spline-robot";
+import { CylinderCarousel } from "@/components/ui/cylinder-carousel";
 import ClientEffects from "./ClientEffects";
+import SectionSnap from "./SectionSnap";
+import WelcomeStrip from "./WelcomeStrip";
 import { HoverRevealButton } from "@/components/ui/button-5";
 import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -9,47 +11,45 @@ import { ProcessSection } from "@/components/ui/process-section";
 import { ProductsScrollSection } from "@/components/products/ProductsScrollSection";
 import { GridVignetteBackground } from "@/components/ui/vignette-grid-background";
 import BackgroundNoise from "@/components/ui/background-noise";
+import { Footer } from "@/components/ui/footer-section";
 
 export default function Page() {
   return (
     <>
       <ClientEffects />
+      <SectionSnap />
 
       <BackgroundNoise />
       <GridVignetteBackground size={24} />
       <div className="ambient ambient-one"></div>
       <div className="ambient ambient-two"></div>
 
-      <a
-        href="#contact"
-        className="fixed top-0 left-0 right-0 z-40 h-8 bg-[#70befa] flex items-center justify-center gap-2 text-white text-xs font-semibold tracking-[0.12em] uppercase hover:bg-[#5fb5f8] transition-colors"
-      >
-        <span>WELCOME TO LORVEN AI STUDIO</span>
-        <span aria-hidden="true">→</span>
-      </a>
+      <WelcomeStrip />
 
       <Navbar />
 
       <main id="home">
         <section className="hero section reveal">
           <div className="particle-field" aria-hidden="true"></div>
-          <div className="hero-3d" aria-hidden="true">
-            <SplineRobot />
-          </div>
           <div className="hero-content">
-            <h1>Lorven AI studio.</h1>
+            <h1>Lorven AI <span className="hero-studio">studio<span className="hero-stop">.</span></span></h1>
             <p className="hero-catchphrase"><em>Where intelligence meets imagination.</em></p>
-            <p>We develop custom AI solutions for innovative companies.</p>
+            <p>Custom AI tools for film and TV teams. Scripts, storyboards, pitch decks, and the glue between them.</p>
             <div className="hero-actions">
               <a href="#services"><LiquidMetalButton label="our services" /></a>
               <a href="#contact"><HoverRevealButton label="contact us" size="md" /></a>
+            </div>
+          </div>
+          <div className="hero-carousel-frame" aria-hidden="true">
+            <div className="hero-carousel">
+              <CylinderCarousel />
             </div>
           </div>
         </section>
 
         <section className="intro section reveal">
           <p className="mega-watermark">Lorven</p>
-          <h2>We&apos;re Lorven. We develop custom AI <em>solutions for innovative companies.</em></h2>
+          <h2>We&apos;re Lorven. We build AI tools for the film teams <em>that actually have to ship.</em></h2>
           <a href="#contact"><HoverRevealButton label="Get in touch" size="md" /></a>
         </section>
 
@@ -71,10 +71,10 @@ export default function Page() {
         <section className="section faq" id="faq">
           <div className="center-title"><h2>Answers</h2><p>We&apos;ve gone ahead and answered some of the questions you might have.</p></div>
           <div className="faq-grid">
-            <TiltCard className="faq-card" index={0}><details><summary>What does Lorven AI Studio do?</summary><p>We build custom AI-powered tools for filmmakers, content teams, and studios — accelerating every step from scriptwriting and storyboarding to pitch decks and production workflows.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={1}><details><summary>Which AI products do you offer?</summary><p>Cine Scribe for AI scriptwriting, Cine Sketch for instant storyboards, Pitch Craft for compelling pitch decks, and Cine Flow for end-to-end production workflows. Custom tools are built on request.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={2}><details><summary>Do I need technical experience to use the tools?</summary><p>No. Everything is designed for creative teams — write a prompt, sketch an idea, get results. We handle the AI plumbing.</p></details></TiltCard>
-            <TiltCard className="faq-card" index={3}><details><summary>How do I get started with Lorven?</summary><p>Book a discovery call through our contact form. We&apos;ll learn your pipeline, recommend the right product mix, and have a tailored AI workflow up and running in days.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={0}><details><summary>What does Lorven AI Studio provide?</summary><p>Lorven AI Studio builds AI tools for film and television teams across writing, visualization, pitch development, and production workflow management. We offer both ready-to-use products and tailored solutions designed to fit a studio&apos;s existing creative and operational pipeline.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={1}><details><summary>Which AI products and solutions do you offer?</summary><p>Our current product suite includes Cine Scribe for script development, Cine Sketch for storyboards and visual references, Pitch Craft for pitch decks, and Cine Flow for connected production workflows. We also develop custom tools when a team requires capabilities beyond our existing product set.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={2}><details><summary>Do I need technical experience to use your tools?</summary><p>No technical background is required. Our tools are designed for creative teams and can be used through simple, natural inputs such as scene descriptions, story notes, and project references, without the need for engineering expertise.</p></details></TiltCard>
+            <TiltCard className="faq-card" index={3}><details><summary>How can I get started with Lorven AI Studio?</summary><p>You can get started by reaching out through our contact form. Once we hear from you, we schedule an initial conversation to understand your goals, review your workflow, and recommend the products or custom solutions that best fit your team.</p></details></TiltCard>
           </div>
         </section>
 
@@ -94,14 +94,7 @@ export default function Page() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="footer-grid">
-          <a className="brand" href="#home"><img className="brand-logo" src="/logo-new.png" alt="Lorven" /></a>
-          <div><h3>Socials</h3><a>Instagram</a><a>Twitter</a><a>LinkedIn</a><a>Facebook</a></div>
-          <div><h3>Links</h3><a href="#services">Services</a><a href="#process">Process</a><a href="#team">Team</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div>
-        </div>
-        <p className="copyright">&copy; 2026, Lorven Inc - All rights reserved.</p>
-      </footer>
+      <Footer />
     </>
   );
 }

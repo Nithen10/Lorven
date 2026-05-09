@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import type { MotionValue } from 'framer-motion';
 import type { ReactNode } from 'react';
 import { Noise } from './background-noise';
@@ -48,23 +48,23 @@ const LaunchIcon = () => (
 
 const STEPS: Step[] = [
   {
-    title: 'DISCOVER',
-    body: 'We meet with your team to learn your storytelling vision and map where AI — across scripts, storyboards, pitches, and workflows — can accelerate your pipeline.',
+    title: 'UPLOAD',
+    body: 'Bring whatever you already have. A logline, a screenplay, a scene description, a production plan, or a pitch concept. Rough notes are fine too. The more context you share, the closer the first version feels to your voice.',
     icon: <DiscoverIcon />,
   },
   {
-    title: 'DESIGN',
-    body: 'We architect an end-to-end AI system bringing scripting, scene visualization, pitch decks, and production workflows together — tailored to your creative direction.',
+    title: 'GENERATE',
+    body: 'Lorven turns what you brought in into a real first version. A screenplay draft, storyboard frames, a connected workflow, or a pitch-ready deck. You start from something you can actually shape, not a blank page.',
     icon: <DesignIcon />,
   },
   {
-    title: 'BUILD',
-    body: 'Our team develops and integrates the full toolkit — from script generation and visual frames to pitch craft and workflow automation — built around your process.',
+    title: 'REFINE',
+    body: 'Shape the draft the way you want it. Adjust the tone, retake a frame, restructure a scene, swap references, or rewire a workflow step. Changes happen quickly, so your team stays in flow.',
     icon: <BuildIcon />,
   },
   {
-    title: 'LAUNCH',
-    body: 'We deploy the suite, train your team, and continuously refine every tool so your production pipeline keeps accelerating release after release.',
+    title: 'DELIVER',
+    body: 'Take the finished work into the next stage. Production, review, or the pitch room. It arrives polished, ready to use, and fits the way your studio already works.',
     icon: <LaunchIcon />,
   },
 ];
@@ -96,9 +96,10 @@ interface ProcessCardProps {
   total: number;
   progress: MotionValue<number>;
   range: [number, number];
+  locked: boolean;
 }
 
-function ProcessCard({ step, index, total, progress, range }: ProcessCardProps) {
+function ProcessCard({ step, index, total, progress, range, locked }: ProcessCardProps) {
   const opacityRaw = useTransform(progress, range, [0, 1]);
   const yRaw = useTransform(progress, range, [120, 0]);
   const scaleRaw = useTransform(progress, range, [0.92, 1]);
@@ -106,9 +107,12 @@ function ProcessCard({ step, index, total, progress, range }: ProcessCardProps) 
   const y = useSpring(yRaw, SPRING);
   const scale = useSpring(scaleRaw, SPRING);
 
+  const motionStyle =
+    index === 0 || locked ? { opacity: 1, y: 0, scale: 1 } : { opacity, y, scale };
+
   return (
     <motion.div
-      style={{ opacity, y, scale }}
+      style={motionStyle}
       className="relative w-full aspect-[4/5]"
     >
       <CornerBrackets />
@@ -118,17 +122,18 @@ function ProcessCard({ step, index, total, progress, range }: ProcessCardProps) 
             {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
         </div>
-        <div className="flex-1 flex items-center justify-center text-white/60">
+        <div className="mt-10 lg:mt-14 h-16 flex items-center justify-center text-white/60">
           {step.icon}
         </div>
-        <div className="flex flex-col items-center gap-4">
-          <h3 className="text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-wide uppercase text-white">
-            {step.title}
-          </h3>
-          <p className="text-sm lg:text-base leading-relaxed text-[#9c9c9c] max-w-[28ch]">
-            {step.body}
-          </p>
-        </div>
+        <h3 className="mt-auto text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-wide uppercase text-white">
+          {step.title}
+        </h3>
+        <p
+          className="mt-4 text-sm lg:text-base leading-relaxed text-[#9c9c9c] max-w-[28ch] min-h-[12rem] lg:min-h-[14rem]"
+          style={{ fontFamily: '"IBM Plex Mono", monospace', fontWeight: 300 }}
+        >
+          {step.body}
+        </p>
       </div>
     </motion.div>
   );
@@ -140,9 +145,49 @@ export function ProcessSection() {
     target: ref,
     offset: ['start start', 'end end'],
   });
+  const [hasFullyRevealed, setHasFullyRevealed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (latest >= 0.9 && !hasFullyRevealed) {
+      setHasFullyRevealed(true);
+    }
+  });
+
+  useEffect(() => {
+    if (!hasFullyRevealed || isCollapsed) return;
+    const sectionEl = ref.current;
+    if (!sectionEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) return;
+        const isBelow = entry.boundingClientRect.bottom <= 0;
+        const oldHeight = sectionEl.offsetHeight;
+
+        setIsCollapsed(true);
+
+        if (isBelow) {
+          requestAnimationFrame(() => {
+            const newHeight = sectionEl.offsetHeight;
+            window.scrollBy(0, newHeight - oldHeight);
+          });
+        }
+        observer.disconnect();
+      },
+      { threshold: 0 },
+    );
+
+    observer.observe(sectionEl);
+    return () => observer.disconnect();
+  }, [hasFullyRevealed, isCollapsed]);
 
   return (
-    <section ref={ref} id="process" className="relative h-[450vh]">
+    <section
+      ref={ref}
+      id="process"
+      className={`relative ${isCollapsed ? 'h-screen' : 'h-[300vh]'}`}
+    >
       <div className="sticky top-0 h-screen w-screen overflow-hidden z-10 flex flex-col items-center justify-center">
         <div
           aria-hidden="true"
@@ -183,11 +228,19 @@ export function ProcessSection() {
           <span className="text-xs md:text-sm tracking-[0.32em] uppercase text-[#70befa] font-semibold">
             How it works
           </span>
-          <h2 className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold uppercase text-white leading-[0.95] tracking-tight">
+          <h2
+            className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold uppercase leading-[0.95] tracking-tight"
+            style={{
+              color: 'transparent',
+              backgroundImage: 'linear-gradient(90deg, #fff 20%, #70befa 92%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+            }}
+          >
             From Script to Screen
           </h2>
           <p className="mt-6 text-xs md:text-sm tracking-[0.24em] uppercase text-[#9c9c9c]">
-            Crafting your AI-powered storytelling pipeline
+            One workflow. Every Lorven product follows it.
           </p>
         </div>
 
@@ -200,6 +253,7 @@ export function ProcessSection() {
               total={STEPS.length}
               progress={scrollYProgress}
               range={RANGES[i]}
+              locked={hasFullyRevealed}
             />
           ))}
         </div>

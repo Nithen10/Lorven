@@ -137,19 +137,23 @@ export function Navbar() {
 
   return (
     <>
-      <a
-        href="#home"
+      <Link
+        href="/"
         aria-label="Lorven AI Studio home"
-        className="fixed top-[48px] left-6 z-30"
+        className="fixed left-6 top-4 z-30 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
       >
         <img
           src="/logo-new.png"
           alt="Lorven"
           style={{ width: 140, height: 44, objectFit: "cover", objectPosition: "center", display: "block" }}
         />
-      </a>
+      </Link>
 
-      <div className="fixed top-[56px] right-6 z-30 flex items-center gap-4">
+      <div
+        className="fixed right-6 top-6 z-30 flex items-center gap-4 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
+      >
         <Link
           href="/login"
           aria-label="Log in"
@@ -163,14 +167,15 @@ export function Navbar() {
       </div>
 
       <header
-        className={`fixed top-[56px] left-1/2 transform -translate-x-1/2 z-20
+        className={`fixed left-1/2 top-6 z-20
                      flex flex-col items-center
                      pl-8 pr-8 py-4
                      ${headerShapeClass}
                      w-[calc(100%-2rem)] sm:w-auto
-                     transition-[border-radius] duration-0 ease-in-out
+                     transition-[border-radius,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu
                      overflow-hidden`}
         style={{
+          transform: 'translate3d(-50%, var(--strip-offset, 32px), 0)',
           boxShadow: "0 2px 16px rgba(0, 0, 0, 0.15)",
         }}
       >

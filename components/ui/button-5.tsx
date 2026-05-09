@@ -11,8 +11,8 @@ export function HoverRevealButton({ label = "Our Work", size = "sm" }: HoverReve
   const sizing = size === "md" ? "p-2 w-36" : "p-1.5 w-25";
   return (
     <div
-      className={`group relative cursor-pointer ${sizing} rounded-full overflow-hidden text-white text-center font-semibold`}
-      style={{ boxShadow: "0 2px 16px rgba(0, 0, 0, 0.15)" }}
+      className={`group relative cursor-pointer ${sizing} rounded-full overflow-hidden text-white text-center font-semibold tracking-[0.04em]`}
+      style={{ boxShadow: "0 2px 16px rgba(0, 0, 0, 0.15)", fontFamily: "Inter, sans-serif" }}
     >
       {/* Glass layers */}
       <div
