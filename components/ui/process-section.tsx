@@ -1,10 +1,16 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import type { MotionValue } from 'framer-motion';
 import type { ReactNode } from 'react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { getLenis } from '@/app/SmoothScroll';
 import { Noise } from './background-noise';
+
+// useLayoutEffect on the client, useEffect on the server — avoids the SSR warning
+// while keeping pre-paint timing where it matters.
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 type Step = {
   title: string;
@@ -147,12 +153,72 @@ export function ProcessSection() {
   });
   const [hasFullyRevealed, setHasFullyRevealed] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const initialMountCollapseRef = useRef(false);
+
+  // If the user landed past this section on initial mount (browser scroll
+  // restoration after a reload, or a hash anchor like #faq / #contact), collapse
+  // synchronously *without* the scroll-compensation that the natural scroll-through
+  // path uses. The browser-restored scrollY was saved on a previous visit when
+  // Process was already collapsed — i.e., it's already in the post-collapse
+  // coordinate space. Compensating would push the user ~200vh backward and dump
+  // them inside the Products stack (visually around CineFlow).
+  useIsoLayoutEffect(() => {
+    const sectionEl = ref.current;
+    if (!sectionEl) return;
+
+    const rect = sectionEl.getBoundingClientRect();
+    if (rect.bottom > 0) return;
+
+    initialMountCollapseRef.current = true;
+    setHasFullyRevealed(true);
+    setIsCollapsed(true);
+  }, []);
+
+  // Runs after the collapse re-render commits but before paint. The layout has
+  // shrunk by ~200vh. If we got here via a hash anchor, the browser scrolled to
+  // the anchor's pre-collapse offset — that target may now be past the document
+  // end (clamped) or simply pointing at the wrong content. Re-resolve it against
+  // the collapsed layout. For non-hash reloads the browser-preserved scrollY is
+  // already correct, so no scroll change is needed.
+  useIsoLayoutEffect(() => {
+    if (!isCollapsed || !initialMountCollapseRef.current) return;
+    initialMountCollapseRef.current = false;
+
+    if (window.location.hash) {
+      try {
+        const target = document.querySelector(window.location.hash);
+        if (target instanceof HTMLElement) {
+          const targetY = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo(0, targetY);
+        }
+      } catch {
+        // Invalid CSS selector in hash, ignore.
+      }
+    }
+
+    ScrollTrigger.refresh();
+  }, [isCollapsed]);
 
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (latest >= 0.9 && !hasFullyRevealed) {
       setHasFullyRevealed(true);
     }
   });
+
+  // Lets the global anchor-click handler (in SmoothScroll) collapse Process
+  // synchronously *before* the navigation scroll begins, so the target offset
+  // is computed against the final layout. We don't run scroll compensation
+  // here — the click handler will do the actual scroll itself. The existing
+  // IntersectionObserver useEffect will bail because isCollapsed is true.
+  useEffect(() => {
+    const onForceCollapse = () => {
+      if (isCollapsed) return;
+      setHasFullyRevealed(true);
+      setIsCollapsed(true);
+    };
+    window.addEventListener('force-process-collapse', onForceCollapse);
+    return () => window.removeEventListener('force-process-collapse', onForceCollapse);
+  }, [isCollapsed]);
 
   useEffect(() => {
     if (!hasFullyRevealed || isCollapsed) return;
@@ -170,7 +236,18 @@ export function ProcessSection() {
         if (isBelow) {
           requestAnimationFrame(() => {
             const newHeight = sectionEl.offsetHeight;
-            window.scrollBy(0, newHeight - oldHeight);
+            const delta = newHeight - oldHeight;
+            const lenis = getLenis();
+            const target = window.scrollY + delta;
+            if (lenis) {
+              // Route through Lenis so its targetScroll stays in sync with the
+              // post-collapse actualScroll. Otherwise the next wheel-notch lerps
+              // from the stale pre-collapse target and skips ~200vh of Products.
+              lenis.scrollTo(target, { immediate: true, force: true, lock: true });
+              ScrollTrigger.refresh();
+            } else {
+              window.scrollBy(0, delta);
+            }
           });
         }
         observer.disconnect();
@@ -221,7 +298,7 @@ export function ProcessSection() {
                 'radial-gradient(ellipse 100% 100% at 50% 50%, black 70%, transparent 100%)',
             }}
           />
-          <Noise patternRefreshInterval={2} patternAlpha={14} />
+          <Noise patternRefreshInterval={3} patternAlpha={6} />
         </div>
 
         <div className="relative text-center max-w-5xl px-5 md:px-10">

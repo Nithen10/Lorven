@@ -1,126 +1,248 @@
 'use client';
-import React from 'react';
-import type { ComponentProps, ReactNode } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
+import type { ComponentProps, CSSProperties, ReactNode } from 'react';
+import Link from 'next/link';
+import { motion, useMotionTemplate, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion';
 
-const FacebookIcon = ({ className }: { className?: string }) => (
-	<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-		<path d="M13.5 22v-8.4h2.82l.42-3.27H13.5V8.24c0-.95.26-1.6 1.62-1.6h1.73V3.72A23.18 23.18 0 0 0 14.32 3.5c-2.5 0-4.22 1.53-4.22 4.33v2.5H7.27v3.27h2.83V22z" />
-	</svg>
-);
-
-const InstagramIcon = ({ className }: { className?: string }) => (
-	<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={className}>
-		<rect x="3" y="3" width="18" height="18" rx="5" />
-		<circle cx="12" cy="12" r="4" />
-		<circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
-	</svg>
-);
-
-const YoutubeIcon = ({ className }: { className?: string }) => (
-	<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-		<path d="M23.5 7.1a3 3 0 0 0-2.1-2.1C19.5 4.5 12 4.5 12 4.5s-7.5 0-9.4.5A3 3 0 0 0 .5 7.1 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 4.9 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-4.9zM9.6 15.6V8.4l6.3 3.6z" />
-	</svg>
-);
-
-const LinkedinIcon = ({ className }: { className?: string }) => (
-	<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
-		<path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13zm1.78 13.02H3.56V9h3.56zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.99 0 1.78-.77 1.78-1.72V1.72C24 .77 23.21 0 22.22 0z" />
+const ArrowUpIcon = ({
+	className,
+	style,
+}: {
+	className?: string;
+	style?: CSSProperties;
+}) => (
+	<svg
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		aria-hidden="true"
+		className={className}
+		style={style}
+	>
+		<line x1="12" y1="19" x2="12" y2="5" />
+		<polyline points="5 12 12 5 19 12" />
 	</svg>
 );
 
 interface FooterLink {
 	title: string;
 	href: string;
-	icon?: React.ComponentType<{ className?: string }>;
 }
 
-interface FooterSection {
-	label: string;
-	links: FooterLink[];
-}
+const navColumn: FooterLink[] = [
+	{ title: 'Home', href: '#home' },
+	{ title: 'Services', href: '#services' },
+	{ title: 'Process', href: '#process' },
+	{ title: 'Products', href: '#products' },
+	{ title: 'Contact Us', href: '#contact' },
+];
 
-const footerLinks: FooterSection[] = [
-	{
-		label: 'Product',
-		links: [
-			{ title: 'Services', href: '#services' },
-			{ title: 'Process', href: '#process' },
-			{ title: 'Products', href: '#products' },
-			{ title: 'Team', href: '#team' },
-		],
-	},
-	{
-		label: 'Company',
-		links: [
-			{ title: 'Careers', href: '/careers' },
-			{ title: 'FAQ', href: '#faq' },
-			{ title: 'Contact', href: '#contact' },
-			{ title: 'Privacy Policy', href: '/privacy' },
-			{ title: 'Terms of Services', href: '/terms' },
-		],
-	},
-	{
-		label: 'Resources',
-		links: [
-			{ title: 'Blog', href: '/blog' },
-			{ title: 'Changelog', href: '/changelog' },
-			{ title: 'Brand', href: '/brand' },
-			{ title: 'Help', href: '/help' },
-		],
-	},
-	{
-		label: 'Social Links',
-		links: [
-			{ title: 'Facebook', href: '#', icon: FacebookIcon },
-			{ title: 'Instagram', href: '#', icon: InstagramIcon },
-			{ title: 'Youtube', href: '#', icon: YoutubeIcon },
-			{ title: 'LinkedIn', href: '#', icon: LinkedinIcon },
-		],
-	},
+const accountColumn: FooterLink[] = [
+	{ title: 'Login', href: '/login' },
+	{ title: 'Careers', href: '/careers' },
+];
+
+const socialColumn: FooterLink[] = [
+	{ title: 'Facebook', href: '#' },
+	{ title: 'Instagram', href: '#' },
+	{ title: 'Tiktok', href: '#' },
 ];
 
 export function Footer() {
-	return (
-		<footer className="md:rounded-t-6xl relative w-full max-w-7xl mx-auto flex flex-col items-start justify-start rounded-t-4xl border-t border-[#222] bg-[radial-gradient(45%_180px_at_50%_0%,rgba(112,190,250,0.22),transparent)] px-6 pt-8 pb-20 lg:pt-10 lg:pb-28">
-			<div className="bg-[#70befa]/60 absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full blur" />
+	const reduceMotion = useReducedMotion();
+	const footerRef = useRef<HTMLElement>(null);
 
-			<div className="grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
-				<AnimatedContainer>
-					<a href="#home" aria-label="Lorven AI Studio" className="block overflow-hidden h-20 w-60 -ml-4">
-						<img src="/logo-new.png" alt="Lorven" className="block w-full max-w-none -mt-20" />
-					</a>
-					<p className="mt-2 text-sm text-[#9c9c9c]">
-						© {new Date().getFullYear()} Lorven AI Studio. All rights reserved.
-					</p>
+	const { scrollYProgress } = useScroll({
+		target: footerRef,
+		offset: ['start end', 'end end'],
+	});
+
+	const smoothProgress = useSpring(scrollYProgress, {
+		stiffness: 110,
+		damping: 28,
+		restDelta: 0.001,
+	});
+
+	const wordmarkWipe = useTransform(smoothProgress, [0, 0.6], [100, 0]);
+	const wordmarkClipPath = useMotionTemplate`inset(0 ${wordmarkWipe}% 0 0)`;
+
+	const glowOpacity = useTransform(smoothProgress, [0.2, 0.8], [0, 1]);
+	const glowScale = useTransform(smoothProgress, [0.2, 0.8], [0.92, 1]);
+
+	const buttonOpacity = useTransform(smoothProgress, [0.75, 0.95], [0, 1]);
+	const buttonScale = useTransform(smoothProgress, [0.75, 0.95], [0.85, 1]);
+
+	const handleScrollTop = () => {
+		if (typeof window === 'undefined') return;
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	};
+
+	const handleInternalNav = () => {
+		if (typeof window === 'undefined') return;
+		if (window.location.pathname !== '/') return;
+		sessionStorage.setItem('lorven:home-scroll-y', String(Math.round(window.scrollY)));
+		sessionStorage.setItem(
+			'lorven:home-scroll-h',
+			String(Math.round(document.documentElement.scrollHeight)),
+		);
+	};
+
+	return (
+		<footer
+			ref={footerRef}
+			className="relative flex min-h-screen w-full flex-col overflow-hidden px-8 pt-80 pb-16 md:px-12 lg:px-16 lg:pt-96"
+		>
+			<motion.div
+				aria-hidden="true"
+				className="pointer-events-none absolute bottom-0 z-0"
+				style={{
+					left: '50%',
+					x: '-50%',
+					width: '85%',
+					height: '42%',
+					background:
+						'radial-gradient(ellipse 90% 65% at 50% 100%, rgba(150,210,255,0.65) 0%, rgba(112,190,250,0.48) 18%, rgba(80,160,220,0.32) 38%, rgba(50,120,180,0.17) 60%, rgba(25,70,125,0.06) 82%, rgba(0,0,0,0) 100%)',
+					filter: 'blur(40px)',
+					mixBlendMode: 'screen',
+					opacity: reduceMotion ? 1 : glowOpacity,
+					scale: reduceMotion ? 1 : glowScale,
+				}}
+			/>
+
+			<div className="relative z-10 grid w-full grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
+				<AnimatedContainer className="md:col-span-3">
+					<ul className="space-y-4 text-3xl text-[#9c9c9c] md:text-4xl">
+						{navColumn.map((link) => (
+							<li key={link.title}>
+								<a
+									href={link.href}
+									className="inline-flex items-center transition-colors duration-300 hover:text-white"
+								>
+									{link.title}
+								</a>
+							</li>
+						))}
+					</ul>
 				</AnimatedContainer>
 
-				<div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2 xl:mt-0">
-					{footerLinks.map((section, index) => (
-						<AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
-							<div className="mb-10 md:mb-0">
-								<h3 className="text-xs">{section.label}</h3>
-								<ul className="mt-4 space-y-2 text-sm text-[#9c9c9c]">
-									{section.links.map((link) => (
-										<li key={link.title}>
-											<a
-												href={link.href}
-												className="inline-flex items-center transition-all duration-300 hover:text-[#70befa]"
-											>
-												{link.icon && <link.icon className="me-1 size-4" />}
-												{link.title}
-											</a>
-										</li>
-									))}
-								</ul>
-							</div>
-						</AnimatedContainer>
-					))}
+				<AnimatedContainer delay={0.1} className="md:col-span-2">
+					<ul className="space-y-4 text-3xl text-[#9c9c9c] md:text-4xl">
+						{accountColumn.map((link) => (
+							<li key={link.title}>
+								<Link
+									href={link.href}
+									onClick={handleInternalNav}
+									className="inline-flex items-center transition-colors duration-300 hover:text-white"
+								>
+									{link.title}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</AnimatedContainer>
+
+				<AnimatedContainer delay={0.2} className="col-span-2 md:col-span-5 md:pl-28 lg:pl-44">
+					<div className="space-y-4 text-3xl text-white md:text-4xl">
+						<a
+							href="mailto:info@lorvenaistudio.com"
+							className="block transition-colors duration-300 hover:text-[#70befa]"
+						>
+							info@lorvenaistudio.com
+						</a>
+						<a
+							href="tel:+919000000000"
+							className="block transition-colors duration-300 hover:text-[#70befa]"
+						>
+							+91 90000 00000
+						</a>
+						<p className="leading-snug">
+							Kamalapuri Colony, Srinagar Colony, Hyderabad, Telangana
+						</p>
+					</div>
+				</AnimatedContainer>
+
+				<AnimatedContainer delay={0.3} className="md:col-span-2 md:justify-self-end">
+					<ul className="space-y-4 text-3xl text-white md:text-4xl md:text-right">
+						{socialColumn.map((link) => (
+							<li key={link.title}>
+								<a
+									href={link.href}
+									className="inline-flex items-center transition-colors duration-300 hover:text-[#70befa]"
+								>
+									{link.title}
+								</a>
+							</li>
+						))}
+					</ul>
+				</AnimatedContainer>
+			</div>
+
+			<div className="relative z-10 mt-auto">
+				<motion.h2
+					className="relative select-none whitespace-nowrap leading-[0.85] text-white"
+					style={{
+						fontFamily: '"Orbitron", "Inter Tight", "Inter", sans-serif',
+						fontWeight: 700,
+						fontSize: 'clamp(72px, 11.7vw, 235px)',
+						letterSpacing: '-0.03em',
+						top: '24px',
+						scaleY: 1.15,
+						transformOrigin: 'bottom center',
+						clipPath: reduceMotion ? 'none' : wordmarkClipPath,
+					}}
+				>
+					Lorven AI Studio
+				</motion.h2>
+
+				<motion.div
+					className="absolute right-4 bottom-0 md:right-12"
+					style={{
+						opacity: reduceMotion ? 1 : buttonOpacity,
+						scale: reduceMotion ? 1 : buttonScale,
+					}}
+				>
+					<button
+						type="button"
+						onClick={handleScrollTop}
+						aria-label="Back to top"
+						className="flex aspect-square items-center justify-center rounded-full bg-[#70befa] text-black transition-all duration-300 hover:scale-105 hover:bg-[#8acbff] active:scale-95"
+						style={{
+							width: 'clamp(64px, 7vw, 140px)',
+						}}
+					>
+						<ArrowUpIcon
+							className="text-black"
+							style={{ width: 'clamp(22px, 2.4vw, 50px)', height: 'auto' }}
+						/>
+					</button>
+				</motion.div>
+			</div>
+
+			<div className="relative z-10 mt-24 flex flex-col items-start justify-between gap-4 text-2xl text-white md:mt-32 md:flex-row md:items-center md:text-3xl">
+				<span>© All rights reserved {new Date().getFullYear()}</span>
+				<div className="flex gap-10 lg:mr-4">
+					<Link
+						href="/terms"
+						onClick={handleInternalNav}
+						className="transition-colors duration-300 hover:text-white"
+					>
+						Terms and Conditions
+					</Link>
+					<Link
+						href="/privacy"
+						onClick={handleInternalNav}
+						className="transition-colors duration-300 hover:text-white md:ml-16 lg:ml-20"
+					>
+						Privacy Policy
+					</Link>
 				</div>
 			</div>
 		</footer>
 	);
-};
+}
 
 type ViewAnimationProps = {
 	delay?: number;
@@ -132,7 +254,7 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 	const shouldReduceMotion = useReducedMotion();
 
 	if (shouldReduceMotion) {
-		return children;
+		return <div className={className as string | undefined}>{children}</div>;
 	}
 
 	return (
@@ -146,4 +268,4 @@ function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationPr
 			{children}
 		</motion.div>
 	);
-};
+}

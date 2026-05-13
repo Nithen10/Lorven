@@ -79,7 +79,7 @@ export const Noise: React.FC<NoiseProps> = ({
 export default function BackgroundNoise() {
   return (
     <div className="fixed inset-0 -z-10 bg-[#0a0a0a]">
-      <Noise patternRefreshInterval={2} patternAlpha={18} />
+      <Noise patternRefreshInterval={3} patternAlpha={8} />
     </div>
   );
 }

@@ -22,18 +22,15 @@ const SLIDE_MS = 2000;
 const VISIBLE = 7;
 
 const IMAGES = [
-  "https://images.unsplash.com/photo-1667986292516-f27450ae75a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1588336443962-49d88df004a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1773067752202-3ec4e1570bc2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1767958465025-75c050ab10c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1771515220841-2dfbfe80e9e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1633957897986-70e83293f3ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://images.unsplash.com/photo-1765489638717-f6059db71ed5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400",
-  "https://picsum.photos/seed/cyber-a/400/640",
-  "https://picsum.photos/seed/cyber-b/400/640",
-  "https://picsum.photos/seed/cyber-c/400/640",
-  "https://picsum.photos/seed/cyber-d/400/640",
-  "https://picsum.photos/seed/cyber-e/400/640",
+  "/carousel/newimage4.webp",
+  "/carousel/newimage7.webp",
+  "/carousel/newimage2.webp",
+  "/carousel/newimage1.webp",
+  "/carousel/newimage5.webp",
+  "/carousel/newimage9.webp",
+  "/carousel/newimage3.webp",
+  "/carousel/newimage6.webp",
+  "/carousel/newvideo1.mp4",
 ];
 
 const POOL_SIZE = IMAGES.length;
@@ -41,8 +38,33 @@ const POOL_SIZE = IMAGES.length;
 const FALLBACK_SRC =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4KCg==";
 
-function CardImg({ src, alt }: { src: string; alt: string }) {
+function CardMedia({ src, alt }: { src: string; alt: string }) {
   const [errored, setErrored] = useState(false);
+  const isVideo = /\.(mp4|webm|mov)$/i.test(src);
+
+  if (isVideo && !errored) {
+    return (
+      <video
+        src={src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        onError={() => setErrored(true)}
+        aria-label={alt}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
+    );
+  }
+
   return (
     <img
       src={errored ? FALLBACK_SRC : src}
@@ -61,7 +83,13 @@ function CardImg({ src, alt }: { src: string; alt: string }) {
 }
 
 export function CylinderCarousel() {
-  const [step, setStep] = useState(0);
+  // Initial step of 2 places the video (imgIdx=9, last in the IMAGES array)
+  // in the center slot on first paint / reload. After SLIDE_MS the carousel
+  // continues its normal rotation; the video then drifts toward the left.
+  // Math: center slot uses s=3, birth = step - (VISIBLE - 1) + s = step - 3.
+  //       imgIdx = ((birth % POOL_SIZE) + POOL_SIZE) % POOL_SIZE.
+  //       With step=2 → birth=-1 → imgIdx=9 (video). ✓
+  const [step, setStep] = useState(2);
 
   useEffect(() => {
     let id: ReturnType<typeof setInterval> | undefined;
@@ -131,17 +159,17 @@ export function CylinderCarousel() {
           pointerEvents: "none",
         }}
       />
-        <div
-          style={{
-            position: "relative",
-            transformStyle: "preserve-3d",
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
+      <div
+        style={{
+          position: "relative",
+          transformStyle: "preserve-3d",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <AnimatePresence initial={false}>
           {visibleCards.map(({ birth, slot, imgIdx }) => {
             const ao = Math.abs(slot);
@@ -182,7 +210,7 @@ export function CylinderCarousel() {
                     borderRadius: radius,
                   }}
                 >
-                  <CardImg src={IMAGES[imgIdx]} alt={`Gallery ${imgIdx + 1}`} />
+                  <CardMedia src={IMAGES[imgIdx]} alt={`Gallery ${imgIdx + 1}`} />
                 </div>
               </motion.div>
             );

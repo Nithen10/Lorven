@@ -1,14 +1,31 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { HoverRevealButton } from "@/components/ui/button-5";
+import { getLenis } from "@/app/SmoothScroll";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TILE_COUNT = 3;
+const TILE_COUNT = 4;
+
+// Cine Sketch tile artwork in display order (left → right).
+const CINE_SKETCH_TILE_IMAGES = [
+  "/img17.webp",
+  "/img18.webp",
+  "/img19.webp",
+  "/img20.webp",
+] as const;
+
+// Step labels paired with each tile — the four-step Cine Sketch flow.
+const CINE_SKETCH_TILE_LABELS = [
+  "Upload your script",
+  "AI breaks it down",
+  "Generate the magic",
+  "Your storyboard, ready",
+] as const;
 
 type Product = {
   id: string;
@@ -51,6 +68,61 @@ const PRODUCTS: Product[] = [
 
 export function ProductsScrollSection() {
   const containerRef = useRef<HTMLElement>(null);
+
+  // Mark off-stage scenes as `inert` so keyboard tabbing skips their buttons.
+  // Without this, focus can land on a "Start Now" / "Coming Soon" button hidden
+  // behind the currently-on-top scene, which triggers the browser's
+  // scrollIntoView and fights Lenis (same desync category as the original
+  // CineSketch→PitchCraft bug).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const container = containerRef.current;
+    if (!container) return;
+    const scenes = Array.from(
+      container.querySelectorAll<HTMLElement>(".product-stack-scene"),
+    );
+    if (scenes.length === 0) return;
+
+    const update = () => {
+      const sectionTop = container.getBoundingClientRect().top + window.scrollY;
+      const vh = window.innerHeight;
+      // Each scene occupies one viewport of scroll. Active = how many viewports
+      // past the section's top we are. Clamp to the last scene.
+      const raw = Math.floor((window.scrollY - sectionTop) / vh);
+      const active = Math.max(0, Math.min(scenes.length - 1, raw));
+      scenes.forEach((scene, i) => {
+        if (i === active) {
+          scene.removeAttribute("inert");
+          scene.classList.add("is-active");
+        } else {
+          scene.setAttribute("inert", "");
+          scene.classList.remove("is-active");
+        }
+      });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    const lenis = getLenis();
+    let detach: (() => void) | null = null;
+    if (lenis) {
+      lenis.on("scroll", update);
+      detach = () => lenis.off("scroll", update);
+    } else {
+      window.addEventListener("scroll", update, { passive: true });
+      detach = () => window.removeEventListener("scroll", update);
+    }
+    return () => {
+      window.removeEventListener("resize", update);
+      detach?.();
+      // Don't leave any scene inert or marked active if the component unmounts mid-stack.
+      scenes.forEach((scene) => {
+        scene.removeAttribute("inert");
+        scene.classList.remove("is-active");
+      });
+    };
+  }, []);
 
   useGSAP(
     () => {
@@ -118,6 +190,7 @@ function ProductScene({
   return (
     <article
       className="product-stack-scene"
+      data-product-id={product.id}
       style={{ zIndex: index + 1 }}
       aria-roledescription="slide"
       aria-label={`${index + 1} of ${total}: ${title}`}
@@ -130,71 +203,55 @@ function ProductScene({
           </span>
         </header>
         <div className="product-stack-headline">
-          <h3>{title}</h3>
+          {product.id === "cine-sketch" ? (
+            <div className="product-stack-title-wrap">
+              <h3>{title}</h3>
+              <img
+                src="/cine-sketch-logo.png"
+                alt=""
+                aria-hidden="true"
+                className="product-stack-title-logo"
+                draggable={false}
+              />
+            </div>
+          ) : (
+            <h3>{title}</h3>
+          )}
           <div className="product-stack-meta">
             <p>{body}</p>
             <HoverRevealButton label={cta} size="md" />
           </div>
         </div>
         <div className="product-stack-gallery" aria-hidden="true">
-          {Array.from({ length: TILE_COUNT }).map((_, i) => {
-            if (index === 0 && i === 0) {
-              return <HoverVideoTile key={i} src="/video1.mp4" />;
-            }
-            if (index === 0 && i === 2) {
-              return <HoverVideoTile key={i} src="/video2.mp4" />;
-            }
-            return (
-              <div key={i} className="product-stack-tile">
-                {index === 0 && i === 1 && (
+          {Array.from({ length: TILE_COUNT }).map((_, i) => (
+            <div key={i} className="product-stack-tile">
+              {product.id === "cine-sketch" && (
+                <>
                   <img
-                    src="/img12.webp"
-                    alt="Cine Sketch reference"
+                    src={CINE_SKETCH_TILE_IMAGES[i]}
+                    alt=""
                     className="product-stack-tile-img"
                     loading="lazy"
                     draggable={false}
                   />
-                )}
-              </div>
-            );
-          })}
+                  <div className="product-stack-tile-label">
+                    <span className="product-stack-tile-label-line" aria-hidden="true" />
+                    <div className="product-stack-tile-label-text">
+                      <span className="product-stack-tile-step">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="product-stack-tile-title">
+                        {CINE_SKETCH_TILE_LABELS[i]}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </article>
   );
 }
 
-function HoverVideoTile({ src }: { src: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handleEnter = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.play().catch(() => {});
-  };
-
-  const handleLeave = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.pause();
-    v.currentTime = 0;
-  };
-
-  return (
-    <div
-      className="product-stack-tile"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-    >
-      <video
-        ref={videoRef}
-        src={src}
-        className="product-stack-tile-video"
-        muted
-        loop
-        playsInline
-        preload="metadata"
-      />
-    </div>
-  );
-}

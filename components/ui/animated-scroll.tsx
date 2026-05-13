@@ -130,9 +130,9 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
             {serviceNumber}
           </motion.div>
 
-          <div className="relative flex flex-col">
+          <div className="relative flex flex-col h-full justify-center">
             <motion.div
-              className="max-w-[37rem]"
+              className="max-w-[37rem] relative top-[-3vh]"
               initial={false}
               animate={{
                 opacity: isActive ? 1 : 0,
@@ -140,26 +140,14 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
               }}
               transition={contentTransition}
             >
-              <div className="flex items-center gap-4">
-                <span className="shrink-0 text-xs tracking-[0.22em] uppercase text-[#70befa]">
-                  {serviceNumber} / {String(total).padStart(2, '0')}
-                </span>
-                <motion.div
-                  className="h-px flex-1 origin-left"
-                  initial={false}
-                  animate={{ scaleX: isActive ? 1 : 0.15 }}
-                  transition={contentTransition}
-                  style={{
-                    background:
-                      'linear-gradient(90deg, rgba(112, 190, 250, 0.5), rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0))',
-                  }}
-                />
-              </div>
+              <span className="block text-xs tracking-[0.22em] uppercase text-[#70befa]">
+                {serviceNumber} / {String(total).padStart(2, '0')}
+              </span>
             </motion.div>
 
             <div className="relative mt-10">
               <motion.h3
-                className="whitespace-nowrap font-medium leading-[1.05] tracking-[-0.04em] pb-[0.05em]"
+                className="whitespace-nowrap font-medium leading-[1.05] tracking-[-0.04em] pb-[0.05em] relative top-[-3vh]"
                 style={{
                   fontFamily: '"Inter Tight", "Inter", sans-serif',
                   fontSize: 'clamp(1.75rem, 2.6vw, 3.75rem)',
@@ -173,15 +161,34 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
               >
                 <span className="services-title-gradient">{service.title}</span>
               </motion.h3>
+              <motion.div
+                aria-hidden="true"
+                className="mt-6 h-px max-w-[37rem] origin-left"
+                initial={false}
+                animate={{ scaleX: isActive ? 1 : 0.15, opacity: isActive ? 1 : 0 }}
+                transition={contentTransition}
+                style={{
+                  background:
+                    'linear-gradient(90deg, rgba(112, 190, 250, 0.5), rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0))',
+                }}
+              />
               <motion.p
-                className="mt-14 max-w-[30rem] text-base md:text-[1.03rem] leading-[1.68] text-[#a3a3a3]"
+                className="mt-8 max-w-[52rem] uppercase text-[#d4d4d4]"
                 initial={false}
                 animate={{
                   opacity: isActive ? 0.92 : 0,
                   y: isActive ? 0 : 34,
                 }}
                 transition={{ ...contentTransition, delay: isActive ? 0.04 : 0 }}
-                style={{ fontFamily: '"IBM Plex Mono", monospace', fontWeight: 300 }}
+                style={{
+                  fontFamily: '"Inter Tight", "Inter", sans-serif',
+                  fontWeight: 600,
+                  fontSize: 'clamp(0.95rem, 1.05vw, 1.2rem)',
+                  lineHeight: 1.32,
+                  letterSpacing: '0.005em',
+                  textAlign: 'justify',
+                  textIndent: '6em',
+                }}
               >
                 {service.body}
               </motion.p>

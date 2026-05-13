@@ -38,7 +38,7 @@ export default function LoginPage() {
         horizontalVignetteSize={80}
         verticalVignetteSize={55}
       />
-      <Noise patternRefreshInterval={2} patternAlpha={16} />
+      <Noise patternRefreshInterval={3} patternAlpha={7} />
 
       <div className="login-shell">
         <aside className="login-image" aria-hidden="true">

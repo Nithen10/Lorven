@@ -140,13 +140,13 @@ export function Navbar() {
       <Link
         href="/"
         aria-label="Lorven AI Studio home"
-        className="fixed left-6 top-4 z-30 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        className="fixed left-3 top-4 z-30 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
         style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
       >
         <img
           src="/logo-new.png"
           alt="Lorven"
-          style={{ width: 140, height: 44, objectFit: "cover", objectPosition: "center", display: "block" }}
+          style={{ width: 170, height: 54, objectFit: "cover", objectPosition: "center", display: "block" }}
         />
       </Link>
 

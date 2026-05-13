@@ -20,3 +20,7 @@ npm-debug.log*
 # misc
 .DS_Store
 *.pem
+
+# source assets (raw images/video before web conversion — kept outside the repo)
+main images/
+../main images/
