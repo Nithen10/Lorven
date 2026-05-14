@@ -28,21 +28,22 @@ export function ServiceStepsAccordion({ steps }: ServiceStepsAccordionProps) {
               type="button"
               onClick={() => setOpenIndex(isOpen ? null : index)}
               aria-expanded={isOpen}
-              className="flex w-full items-center justify-between gap-5 py-1 text-left"
+              className="flex w-full min-h-11 items-center justify-between gap-4 sm:gap-5 py-1.5 text-left"
             >
-              <span className="pr-6 text-[0.98rem] md:text-[1.05rem] font-semibold leading-snug text-white transition-colors duration-300">
+              <span
+                className="pr-4 sm:pr-6 text-[1.05rem] sm:text-[1.2rem] md:text-[1.4rem] font-semibold leading-snug text-white transition-colors duration-300"
+                style={{ fontFamily: '"Inter Tight", "Inter", sans-serif' }}
+              >
                 {step.title}
               </span>
               <svg
-                width="16"
-                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className={`shrink-0 text-white/50 transition-transform duration-300 ${
+                className={`w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-white/50 transition-transform duration-300 ${
                   isOpen ? 'rotate-180' : ''
                 }`}
                 aria-hidden="true"
@@ -58,8 +59,8 @@ export function ServiceStepsAccordion({ steps }: ServiceStepsAccordionProps) {
             >
               <div className="overflow-hidden">
                 <p
-                  className="max-w-[40rem] pr-8 text-xs leading-[1.8] text-white/55 md:text-[0.82rem]"
-                  style={{ fontFamily: '"IBM Plex Mono", monospace', fontWeight: 300 }}
+                  className="max-w-[40rem] pr-4 sm:pr-8 text-[0.95rem] sm:text-base md:text-[1.05rem] leading-[1.7] sm:leading-[1.8] text-white/55"
+                  style={{ fontFamily: '"Inter Tight", "Inter", sans-serif', fontWeight: 300 }}
                 >
                   {step.body}
                 </p>

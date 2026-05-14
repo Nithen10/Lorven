@@ -182,12 +182,14 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
                 transition={{ ...contentTransition, delay: isActive ? 0.04 : 0 }}
                 style={{
                   fontFamily: '"Inter Tight", "Inter", sans-serif',
-                  fontWeight: 600,
+                  fontWeight: 500,
                   fontSize: 'clamp(0.95rem, 1.05vw, 1.2rem)',
-                  lineHeight: 1.32,
+                  lineHeight: 1.35,
                   letterSpacing: '0.005em',
                   textAlign: 'justify',
                   textIndent: '6em',
+                  transform: 'scaleY(1.35) scaleX(0.85)',
+                  transformOrigin: 'left top',
                 }}
               >
                 {service.body}
@@ -195,7 +197,7 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
             </div>
 
             <motion.div
-              className="relative mt-6 max-w-[36rem]"
+              className="relative mt-6 max-w-[52rem]"
               initial={false}
               animate={{
                 opacity: isActive ? 0.96 : 0,
@@ -213,7 +215,7 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
                   </span>
                 ))}
               </div>
-              <div className="mt-4 max-w-[34rem]">
+              <div className="mt-4 max-w-[52rem]">
                 <ServiceStepsAccordion steps={service.steps} />
               </div>
             </motion.div>
@@ -355,7 +357,7 @@ export function AnimatedScroll({ services }: AnimatedScrollProps) {
       style={{ height: `${total * 100}vh` }}
       aria-label="Services"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-svh w-full overflow-hidden">
         {services.map((service, i) => (
           <ServiceFrame
             key={service.title}

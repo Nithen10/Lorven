@@ -93,7 +93,7 @@ export function Footer() {
 	return (
 		<footer
 			ref={footerRef}
-			className="relative flex min-h-screen w-full flex-col overflow-hidden px-8 pt-80 pb-16 md:px-12 lg:px-16 lg:pt-96"
+			className="relative flex min-h-svh w-full flex-col overflow-hidden px-6 pt-28 pb-12 sm:px-8 sm:pt-36 md:px-10 md:pt-44 lg:px-14 lg:pt-52 xl:pt-60 2xl:pt-72"
 		>
 			<motion.div
 				aria-hidden="true"
@@ -114,7 +114,7 @@ export function Footer() {
 
 			<div className="relative z-10 grid w-full grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
 				<AnimatedContainer className="md:col-span-3">
-					<ul className="space-y-4 text-3xl text-[#9c9c9c] md:text-4xl">
+					<ul className="space-y-4 text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-[#9c9c9c]">
 						{navColumn.map((link) => (
 							<li key={link.title}>
 								<a
@@ -129,7 +129,7 @@ export function Footer() {
 				</AnimatedContainer>
 
 				<AnimatedContainer delay={0.1} className="md:col-span-2">
-					<ul className="space-y-4 text-3xl text-[#9c9c9c] md:text-4xl">
+					<ul className="space-y-4 text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-[#9c9c9c]">
 						{accountColumn.map((link) => (
 							<li key={link.title}>
 								<Link
@@ -144,8 +144,8 @@ export function Footer() {
 					</ul>
 				</AnimatedContainer>
 
-				<AnimatedContainer delay={0.2} className="col-span-2 md:col-span-5 md:pl-28 lg:pl-44">
-					<div className="space-y-4 text-3xl text-white md:text-4xl">
+				<AnimatedContainer delay={0.2} className="col-span-2 md:col-span-5 md:pl-16 lg:pl-24 xl:pl-32">
+					<div className="space-y-3 sm:space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-white break-words">
 						<a
 							href="mailto:info@lorvenaistudio.com"
 							className="block transition-colors duration-300 hover:text-[#70befa]"
@@ -165,7 +165,7 @@ export function Footer() {
 				</AnimatedContainer>
 
 				<AnimatedContainer delay={0.3} className="md:col-span-2 md:justify-self-end">
-					<ul className="space-y-4 text-3xl text-white md:text-4xl md:text-right">
+					<ul className="space-y-3 sm:space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-white md:text-right">
 						{socialColumn.map((link) => (
 							<li key={link.title}>
 								<a
@@ -186,7 +186,7 @@ export function Footer() {
 					style={{
 						fontFamily: '"Orbitron", "Inter Tight", "Inter", sans-serif',
 						fontWeight: 700,
-						fontSize: 'clamp(72px, 11.7vw, 235px)',
+						fontSize: 'clamp(32px, 9vw, 170px)',
 						letterSpacing: '-0.03em',
 						top: '24px',
 						scaleY: 1.15,

@@ -85,7 +85,7 @@ const RANGES: Array<[number, number]> = [
 const SPRING = { stiffness: 90, damping: 26, mass: 0.6 };
 
 function CornerBrackets() {
-  const base = 'absolute w-7 h-7 border-white/45 pointer-events-none';
+  const base = 'absolute w-5 h-5 sm:w-7 sm:h-7 border-white/45 pointer-events-none';
   return (
     <>
       <span className={`${base} top-0 left-0 border-l-2 border-t-2`} />
@@ -122,21 +122,21 @@ function ProcessCard({ step, index, total, progress, range, locked }: ProcessCar
       className="relative w-full aspect-[4/5]"
     >
       <CornerBrackets />
-      <div className="absolute inset-5 rounded-2xl border border-white/[0.08] px-6 lg:px-8 py-8 flex flex-col items-center text-center bg-[linear-gradient(180deg,rgba(13,13,13,0.92),rgba(10,10,10,0.85))] backdrop-blur-[2px] shadow-[0_12px_30px_rgba(0,0,0,0.4)]">
+      <div className="absolute inset-5 rounded-2xl border border-white/[0.08] px-4 sm:px-6 md:px-7 lg:px-8 py-8 flex flex-col items-center text-center bg-[linear-gradient(180deg,rgba(13,13,13,0.92),rgba(10,10,10,0.85))] backdrop-blur-[2px] shadow-[0_12px_30px_rgba(0,0,0,0.4)]">
         <div className="w-full flex items-center justify-end text-[10px] tracking-[0.28em] uppercase">
           <span className="text-[#70befa]/70 font-semibold">
             {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
         </div>
-        <div className="mt-10 lg:mt-14 h-16 flex items-center justify-center text-white/60">
+        <div className="mt-8 md:mt-10 lg:mt-12 h-12 md:h-14 lg:h-16 flex items-center justify-center text-white/60">
           {step.icon}
         </div>
-        <h3 className="mt-auto text-3xl lg:text-4xl xl:text-5xl font-semibold tracking-wide uppercase text-white">
+        <h3 className="mt-auto text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold tracking-wide uppercase text-white">
           {step.title}
         </h3>
         <p
-          className="mt-4 text-sm lg:text-base leading-relaxed text-[#9c9c9c] max-w-[28ch] min-h-[12rem] lg:min-h-[14rem]"
-          style={{ fontFamily: '"IBM Plex Mono", monospace', fontWeight: 300 }}
+          className="mt-3 md:mt-4 text-sm md:text-base lg:text-[15px] xl:text-base leading-relaxed text-[#9c9c9c] max-w-[28ch] min-h-[10rem] lg:min-h-[12rem]"
+          style={{ fontFamily: '"Inter Tight", "Inter", sans-serif', fontWeight: 300 }}
         >
           {step.body}
         </p>
@@ -153,7 +153,21 @@ export function ProcessSection() {
   });
   const [hasFullyRevealed, setHasFullyRevealed] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const initialMountCollapseRef = useRef(false);
+
+  // Below md (<768px) the pinned-narrative is replaced with a normal vertical
+  // flow — section auto-heights and each card renders in its final visible
+  // state. Saves a 300vh scroll budget and avoids the sticky-pin glitches on
+  // small browsers / Android URL-bar dance.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(max-width: 767px)');
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // If the user landed past this section on initial mount (browser scroll
   // restoration after a reload, or a hash anchor like #faq / #contact), collapse
@@ -263,9 +277,17 @@ export function ProcessSection() {
     <section
       ref={ref}
       id="process"
-      className={`relative ${isCollapsed ? 'h-screen' : 'h-[300vh]'}`}
+      className={`relative ${
+        isMobile ? '' : isCollapsed ? 'h-svh' : 'h-[300vh]'
+      }`}
     >
-      <div className="sticky top-0 h-screen w-screen overflow-hidden z-10 flex flex-col items-center justify-center">
+      <div
+        className={`${
+          isMobile
+            ? 'relative w-full overflow-hidden py-20'
+            : 'sticky top-0 h-svh w-screen overflow-hidden'
+        } z-10 flex flex-col items-center justify-center`}
+      >
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none overflow-hidden"
@@ -277,10 +299,10 @@ export function ProcessSection() {
           <div
             className="absolute"
             style={{
-              left: '-18vw',
-              bottom: '12vh',
-              width: '64vw',
-              height: '50vh',
+              left: '-12vw',
+              bottom: '8%',
+              width: 'min(64vw, 900px)',
+              height: 'min(50vh, 480px)',
               filter: 'blur(8px)',
               background:
                 'radial-gradient(50% 50% at 50% 50%, rgba(80, 176, 250, 0.13), rgba(10, 10, 10, 0) 72%)',
@@ -306,7 +328,7 @@ export function ProcessSection() {
             How it works
           </span>
           <h2
-            className="mt-5 text-5xl md:text-7xl lg:text-8xl font-bold uppercase leading-[0.95] tracking-tight"
+            className="mt-4 text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-bold uppercase leading-[0.95] tracking-tight"
             style={{
               color: 'transparent',
               backgroundImage: 'linear-gradient(90deg, #fff 20%, #70befa 92%)',
@@ -316,12 +338,12 @@ export function ProcessSection() {
           >
             From Script to Screen
           </h2>
-          <p className="mt-6 text-xs md:text-sm tracking-[0.24em] uppercase text-[#9c9c9c]">
+          <p className="mt-4 md:mt-5 text-[10px] md:text-xs tracking-[0.24em] uppercase text-[#9c9c9c]">
             One workflow. Every Lorven product follows it.
           </p>
         </div>
 
-        <div className="relative mt-12 lg:mt-16 w-full px-6 md:px-10 lg:px-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="relative mt-8 md:mt-10 lg:mt-12 w-full px-4 sm:px-6 md:px-10 lg:px-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7">
           {STEPS.map((step, i) => (
             <ProcessCard
               key={step.title}
@@ -330,7 +352,7 @@ export function ProcessSection() {
               total={STEPS.length}
               progress={scrollYProgress}
               range={RANGES[i]}
-              locked={hasFullyRevealed}
+              locked={hasFullyRevealed || isMobile}
             />
           ))}
         </div>

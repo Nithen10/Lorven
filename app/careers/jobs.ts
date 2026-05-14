@@ -5,6 +5,7 @@ export type Job = {
   location: string;
   type: string;
   workMode: string;
+  experience: string;
   about: string;
   responsibilities: string[];
   skills: string[];
@@ -22,6 +23,8 @@ export const departments = [
 
 export const locations = ["Hyderabad"];
 
+export const experiences = ["Entry", "Mid", "Senior", "Lead"] as const;
+
 export const jobs: Job[] = [
   {
     id: "senior-ai-ml-engineer",
@@ -30,6 +33,7 @@ export const jobs: Job[] = [
     location: "Hyderabad",
     type: "Full Time",
     workMode: "On-Site",
+    experience: "Senior",
     about:
       "Lorven AI Studio is a Hyderabad-based AI-native film studio revolutionizing the movie industry with AI-powered tools across the entire filmmaking pipeline — from scriptwriting to post-production.",
     responsibilities: [
@@ -55,6 +59,42 @@ export const jobs: Job[] = [
       "Competitive salary & benefits",
       "Collaborative & innovative culture",
       "Strong growth & learning opportunities",
+    ],
+  },
+  {
+    id: "deployment-engineer",
+    title: "Deployment Engineer",
+    department: "Engineering",
+    location: "Hyderabad",
+    type: "Full Time",
+    workMode: "On-Site",
+    experience: "Mid",
+    about:
+      "Help Lorven AI Studio ship faster and stay up. You will own the infrastructure that takes our generative-AI and production tools from a developer's laptop to studios using them on set — keeping pipelines fast, observable, and resilient.",
+    responsibilities: [
+      "Build and maintain CI/CD pipelines for application and ML services",
+      "Manage Kubernetes clusters on AWS (EKS) across staging and production",
+      "Author and review infrastructure-as-code with Terraform",
+      "Instrument services with Prometheus, Grafana, and OpenTelemetry",
+      "Triage production incidents and lead blameless postmortems",
+      "Automate release, rollback, and canary deployment workflows",
+      "Harden secrets management, IAM policies, and audit logging",
+      "Participate in a light on-call rotation with one teammate",
+    ],
+    skills: [
+      "2+ years in DevOps, SRE, or platform engineering",
+      "Kubernetes in production (EKS, GKE, or self-managed)",
+      "Terraform and at least one config tool (Helm, Kustomize, Ansible)",
+      "GitHub Actions or comparable CI (CircleCI, GitLab CI, Jenkins)",
+      "Prometheus / Grafana / Loki observability stack",
+      "Strong Python or Go scripting; comfortable in Bash",
+      "AWS fundamentals (IAM, VPC, S3, EKS, RDS); exposure to MLOps a plus",
+    ],
+    offers: [
+      "Own the platform from day one",
+      "Modern stack, no legacy baggage",
+      "Competitive salary & benefits",
+      "Direct exposure to AI/ML research workflows",
     ],
   },
 ];

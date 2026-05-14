@@ -132,29 +132,41 @@ export function ProductsScrollSection() {
       const container = containerRef.current;
       if (!container) return;
 
-      const scenes = gsap.utils.toArray<HTMLElement>(
-        ".product-stack-scene",
-        container,
-      );
+      // Gate the fade/scale-on-cover triggers to desktop only. Below 901px the
+      // CSS (`@media (max-width: 900px)` in styles.css) drops `.product-stack-scene`
+      // from `position: sticky` to `position: static`, so scenes no longer
+      // stack on top of one another — the "outgoing scene recedes" effect is
+      // meaningless and the ScrollTriggers would just churn CPU on resize.
+      // gsap.matchMedia automatically reverts all triggers registered inside
+      // the callback when the breakpoint stops matching.
+      const mm = gsap.matchMedia();
+      mm.add("(min-width: 901px)", () => {
+        const scenes = gsap.utils.toArray<HTMLElement>(
+          ".product-stack-scene",
+          container,
+        );
 
-      // Subtle fade/scale on outgoing scenes as the next one covers them —
-      // gives the LTX-style "previous card recedes" feel.
-      scenes.forEach((scene, i) => {
-        if (i === scenes.length - 1) return;
-        const inner = scene.querySelector(".product-stack-inner");
-        if (!inner) return;
-        gsap.to(inner, {
-          scale: 0.94,
-          opacity: 0.35,
-          ease: "none",
-          scrollTrigger: {
-            trigger: scenes[i + 1],
-            start: "top bottom",
-            end: "top top",
-            scrub: 1,
-          },
+        // Subtle fade/scale on outgoing scenes as the next one covers them —
+        // gives the LTX-style "previous card recedes" feel.
+        scenes.forEach((scene, i) => {
+          if (i === scenes.length - 1) return;
+          const inner = scene.querySelector(".product-stack-inner");
+          if (!inner) return;
+          gsap.to(inner, {
+            scale: 0.94,
+            opacity: 0.35,
+            ease: "none",
+            scrollTrigger: {
+              trigger: scenes[i + 1],
+              start: "top bottom",
+              end: "top top",
+              scrub: 1,
+            },
+          });
         });
       });
+
+      return () => mm.revert();
     },
     { scope: containerRef },
   );
@@ -235,15 +247,9 @@ function ProductScene({
                     draggable={false}
                   />
                   <div className="product-stack-tile-label">
-                    <span className="product-stack-tile-label-line" aria-hidden="true" />
-                    <div className="product-stack-tile-label-text">
-                      <span className="product-stack-tile-step">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span className="product-stack-tile-title">
-                        {CINE_SKETCH_TILE_LABELS[i]}
-                      </span>
-                    </div>
+                    <span className="product-stack-tile-title">
+                      {CINE_SKETCH_TILE_LABELS[i]}
+                    </span>
                   </div>
                 </>
               )}

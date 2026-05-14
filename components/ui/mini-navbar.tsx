@@ -140,38 +140,38 @@ export function Navbar() {
       <Link
         href="/"
         aria-label="Lorven AI Studio home"
-        className="fixed left-3 top-4 z-30 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        className="fixed left-3 top-3 sm:top-4 md:top-5 z-30 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
         style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
       >
         <img
           src="/logo-new.png"
           alt="Lorven"
-          style={{ width: 170, height: 54, objectFit: "cover", objectPosition: "center", display: "block" }}
+          className="block w-[100px] h-[32px] sm:w-[120px] sm:h-[38px] md:w-[150px] md:h-[48px] lg:w-[170px] lg:h-[54px] object-cover object-center"
         />
       </Link>
 
       <div
-        className="fixed right-6 top-6 z-30 flex items-center gap-4 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        className="fixed right-6 top-6 z-30 hidden sm:flex items-center gap-4 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
         style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
       >
         <Link
           href="/login"
           aria-label="Log in"
-          className="group relative inline-block overflow-hidden h-5 text-sm font-semibold tracking-[0.12em] uppercase"
+          className="group relative inline-block overflow-hidden h-7 text-base font-semibold tracking-[0.12em] uppercase"
         >
           <div className="flex flex-col transition-transform duration-[400ms] ease-out group-hover:-translate-y-1/2">
-            <span className="h-5 flex items-center text-white/75">LOG-IN</span>
-            <span className="h-5 flex items-center text-white">LOG-IN</span>
+            <span className="h-7 flex items-center text-white/75">LOG-IN</span>
+            <span className="h-7 flex items-center text-white">LOG-IN</span>
           </div>
         </Link>
       </div>
 
       <header
-        className={`fixed left-1/2 top-6 z-20
+        className={`fixed left-1/2 top-4 sm:top-6 z-20
                      flex flex-col items-center
-                     pl-8 pr-8 py-4
+                     px-3 py-2 sm:pl-8 sm:pr-8 sm:py-4
                      ${headerShapeClass}
-                     w-[calc(100%-2rem)] sm:w-auto
+                     w-auto max-w-[calc(100%-1rem)]
                      transition-[border-radius,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu
                      overflow-hidden`}
         style={{
@@ -259,7 +259,7 @@ export function Navbar() {
         </nav>
 
         <button
-          className="sm:hidden flex items-center justify-center w-8 h-8 text-gray-300 focus:outline-none"
+          className="sm:hidden flex items-center justify-center w-11 h-11 -mr-2 text-gray-300 focus:outline-none"
           onClick={toggleMenu}
           aria-label={isOpen ? "Close Menu" : "Open Menu"}
         >
@@ -276,20 +276,27 @@ export function Navbar() {
       </div>
 
       <div
-        className={`relative z-10 sm:hidden flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-hidden
-                     ${isOpen ? "max-h-[1000px] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0 pointer-events-none"}`}
+        className={`relative z-10 sm:hidden flex flex-col items-center w-full transition-all ease-in-out duration-300 overflow-y-auto overflow-x-hidden
+                     ${isOpen ? "max-h-[80svh] opacity-100 pt-4" : "max-h-0 opacity-0 pt-0 pointer-events-none"}`}
       >
-        <nav className="flex flex-col items-center space-y-4 text-base w-full">
+        <nav className="flex flex-col items-stretch w-full text-base">
           {navLinksData.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={`${activeSection === link.href ? "text-white" : "text-gray-300"} hover:text-white transition-colors w-full text-center`}
+              className={`${activeSection === link.href ? "text-white" : "text-gray-300"} hover:text-white transition-colors w-full text-center py-3 min-h-11 flex items-center justify-center`}
               onClick={() => setIsOpen(false)}
             >
               {link.label}
             </a>
           ))}
+          <Link
+            href="/login"
+            className="text-gray-300 hover:text-white transition-colors w-full text-center py-3 min-h-11 flex items-center justify-center font-semibold tracking-[0.12em] uppercase border-t border-white/10 mt-2"
+            onClick={() => setIsOpen(false)}
+          >
+            Log-In
+          </Link>
         </nav>
       </div>
     </header>
