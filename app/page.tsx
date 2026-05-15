@@ -1,7 +1,6 @@
 import { CylinderCarousel } from "@/components/ui/cylinder-carousel";
 import ClientEffects from "./ClientEffects";
 import SectionSnap from "./SectionSnap";
-import WelcomeStrip from "./WelcomeStrip";
 import { HoverRevealButton } from "@/components/ui/button-5";
 import { LiquidMetalButton } from "@/components/ui/liquid-metal-button";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -23,8 +22,6 @@ export default function Page() {
       <GridVignetteBackground size={24} />
       <div className="ambient ambient-one"></div>
       <div className="ambient ambient-two"></div>
-
-      <WelcomeStrip />
 
       <Navbar />
 

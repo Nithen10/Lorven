@@ -180,16 +180,24 @@ export function Footer() {
 				</AnimatedContainer>
 			</div>
 
-			<div className="relative z-10 mt-auto">
+			<div className="relative z-10 mt-auto flex items-center gap-3 pt-3 sm:block sm:pt-0">
 				<motion.h2
-					className="relative select-none whitespace-nowrap leading-[0.85] text-white"
+					className="relative select-none whitespace-nowrap leading-none text-white flex-1 min-w-0 sm:leading-[0.85]"
 					style={{
 						fontFamily: '"Orbitron", "Inter Tight", "Inter", sans-serif',
 						fontWeight: 700,
-						fontSize: 'clamp(32px, 9vw, 170px)',
-						letterSpacing: '-0.03em',
-						top: '24px',
-						scaleY: 1.15,
+						/* Mobile floor reduced to 22px so the full "Lorven AI Studio"
+						   wordmark (16 chars in Orbitron Bold) fits next to the
+						   inline up-arrow button without being clipped at <400px.
+						   top: 0 on mobile (was 24px) so the inline flex row baseline
+						   stays clean — the 24px offset was a desktop design tweak
+						   that pushed the wordmark below the arrow at mobile.
+						   scaleY: 1 on mobile (was 1.15) so the stretched glyph tops
+						   don't extend above their line box and get clipped. */
+						fontSize: 'clamp(22px, 7.5vw, 170px)',
+						letterSpacing: '-0.04em',
+						top: 0,
+						scaleY: 1,
 						transformOrigin: 'bottom center',
 						clipPath: reduceMotion ? 'none' : wordmarkClipPath,
 					}}
@@ -198,7 +206,7 @@ export function Footer() {
 				</motion.h2>
 
 				<motion.div
-					className="absolute right-4 bottom-0 md:right-12"
+					className="shrink-0 sm:absolute sm:right-4 sm:bottom-0 md:right-12"
 					style={{
 						opacity: reduceMotion ? 1 : buttonOpacity,
 						scale: reduceMotion ? 1 : buttonScale,
@@ -210,31 +218,31 @@ export function Footer() {
 						aria-label="Back to top"
 						className="flex aspect-square items-center justify-center rounded-full bg-[#70befa] text-black transition-all duration-300 hover:scale-105 hover:bg-[#8acbff] active:scale-95"
 						style={{
-							width: 'clamp(64px, 7vw, 140px)',
+							width: 'clamp(44px, 7vw, 140px)',
 						}}
 					>
 						<ArrowUpIcon
 							className="text-black"
-							style={{ width: 'clamp(22px, 2.4vw, 50px)', height: 'auto' }}
+							style={{ width: 'clamp(18px, 2.4vw, 50px)', height: 'auto' }}
 						/>
 					</button>
 				</motion.div>
 			</div>
 
-			<div className="relative z-10 mt-24 flex flex-col items-start justify-between gap-4 text-2xl text-white md:mt-32 md:flex-row md:items-center md:text-3xl">
-				<span>© All rights reserved {new Date().getFullYear()}</span>
-				<div className="flex gap-10 lg:mr-4">
+			<div className="relative z-10 mt-12 sm:mt-20 md:mt-24 lg:mt-32 flex flex-col items-start justify-between gap-3 text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl text-white md:flex-row md:items-center md:flex-wrap">
+				<span className="whitespace-nowrap">© All rights reserved {new Date().getFullYear()}</span>
+				<div className="flex flex-wrap gap-4 sm:gap-6 md:gap-10 lg:mr-4">
 					<Link
 						href="/terms"
 						onClick={handleInternalNav}
-						className="transition-colors duration-300 hover:text-white"
+						className="whitespace-nowrap transition-colors duration-300 hover:text-white"
 					>
 						Terms and Conditions
 					</Link>
 					<Link
 						href="/privacy"
 						onClick={handleInternalNav}
-						className="transition-colors duration-300 hover:text-white md:ml-16 lg:ml-20"
+						className="whitespace-nowrap transition-colors duration-300 hover:text-white"
 					>
 						Privacy Policy
 					</Link>

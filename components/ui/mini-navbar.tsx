@@ -140,8 +140,8 @@ export function Navbar() {
       <Link
         href="/"
         aria-label="Lorven AI Studio home"
-        className="fixed left-3 top-3 sm:top-4 md:top-5 z-30 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
-        style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
+        className="fixed left-3 top-1 sm:top-2 md:top-3 lg:top-4 z-30 outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black rounded-sm transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        style={{ transform: 'translate3d(0, var(--strip-offset, 0px), 0)' }}
       >
         <img
           src="/logo-new.png"
@@ -151,8 +151,8 @@ export function Navbar() {
       </Link>
 
       <div
-        className="fixed right-6 top-6 z-30 hidden sm:flex items-center gap-4 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
-        style={{ transform: 'translate3d(0, var(--strip-offset, 32px), 0)' }}
+        className="fixed right-4 sm:right-6 top-2 sm:top-4 md:top-6 z-30 flex items-center gap-4 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu"
+        style={{ transform: 'translate3d(0, var(--strip-offset, 0px), 0)' }}
       >
         <Link
           href="/login"
@@ -175,7 +175,7 @@ export function Navbar() {
                      transition-[border-radius,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform transform-gpu
                      overflow-hidden`}
         style={{
-          transform: 'translate3d(-50%, var(--strip-offset, 32px), 0)',
+          transform: 'translate3d(-50%, var(--strip-offset, 0px), 0)',
           boxShadow: "0 2px 16px rgba(0, 0, 0, 0.15)",
         }}
       >
@@ -290,13 +290,6 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
-          <Link
-            href="/login"
-            className="text-gray-300 hover:text-white transition-colors w-full text-center py-3 min-h-11 flex items-center justify-center font-semibold tracking-[0.12em] uppercase border-t border-white/10 mt-2"
-            onClick={() => setIsOpen(false)}
-          >
-            Log-In
-          </Link>
         </nav>
       </div>
     </header>

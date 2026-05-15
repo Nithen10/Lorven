@@ -16,19 +16,19 @@
   --breakpoint-3xl: 1920px;
 
   /* Fluid type scale */
-  --text-fluid-xs:   clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
-  --text-fluid-sm:   clamp(0.88rem, 0.82rem + 0.3vw, 1rem);
+  --text-fluid-xs: clamp(0.78rem, 0.74rem + 0.2vw, 0.88rem);
+  --text-fluid-sm: clamp(0.88rem, 0.82rem + 0.3vw, 1rem);
   --text-fluid-base: clamp(0.95rem, 0.85rem + 0.4vw, 1.1rem);
-  --text-fluid-lg:   clamp(1.1rem,  0.95rem + 0.7vw, 1.35rem);
-  --text-fluid-xl:   clamp(1.25rem, 0.9rem  + 1.5vw, 2rem);
-  --text-fluid-2xl:  clamp(1.6rem,  1rem    + 2.5vw, 3rem);
-  --text-fluid-3xl:  clamp(2rem,    1.2rem  + 4vw,   4.5rem);
-  --text-fluid-hero: clamp(2.5rem,  1.4rem  + 5.5vw, 6rem);
+  --text-fluid-lg: clamp(1.1rem, 0.95rem + 0.7vw, 1.35rem);
+  --text-fluid-xl: clamp(1.25rem, 0.9rem + 1.5vw, 2rem);
+  --text-fluid-2xl: clamp(1.6rem, 1rem + 2.5vw, 3rem);
+  --text-fluid-3xl: clamp(2rem, 1.2rem + 4vw, 4.5rem);
+  --text-fluid-hero: clamp(2.5rem, 1.4rem + 5.5vw, 6rem);
 
   /* Fluid spacing */
   --spacing-section-y: clamp(3rem, 8vw, 8rem);
   --spacing-section-x: clamp(1rem, 4vw, 4rem);
-  --spacing-card:      clamp(1rem, 2vw, 2rem);
+  --spacing-card: clamp(1rem, 2vw, 2rem);
 }
 
 @property --rotation {
@@ -97,15 +97,27 @@ section[id] {
   scroll-margin-top: 110px;
 }
 
+html {
+  /* Prevent any descendant's intrinsic width > viewport from creating a
+     horizontal scroll on mobile. `clip` is stricter than `hidden` — it cannot
+     be undone by descendants the way `hidden` can on iOS Safari. Combined
+     with `max-width: 100%` on the root we guarantee the page never grows
+     wider than the visible viewport, regardless of child overflow. */
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
+  max-width: 100%;
   color: var(--text);
   background:
     radial-gradient(50% 24% at 50% 0%, rgba(112, 190, 250, .16), rgba(10, 10, 10, 0) 78%),
     var(--bg);
   font-family: Inter, Arial, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
+  position: relative;
 }
 
 @layer base {
@@ -326,12 +338,17 @@ h1,
   position: relative;
   z-index: 3;
   width: 100%;
+  max-width: 100%;
   height: calc(480px * var(--carousel-scale));
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  /* `clip` is stricter than `hidden` — guarantees the 1440px-wide
+     .hero-carousel child cannot leak horizontally into the body's
+     scrollable area on iOS Safari. */
+  overflow: clip;
   pointer-events: none;
+  contain: paint;
 }
 
 .hero-carousel {
@@ -1238,6 +1255,7 @@ textarea {
 }
 
 @media (min-width: 768px) {
+
   input,
   textarea {
     min-height: 52px;
@@ -1315,6 +1333,7 @@ textarea {
     gap: 32px;
     padding: 40px 0;
   }
+
   .newsletter {
     grid-template-columns: 1fr;
     text-align: left;
@@ -1530,11 +1549,15 @@ textarea {
 }
 
 .login-email-field:focus-within {
-  border-color: rgba(112, 190, 250, 0.5);
+  /* Warm orange focus glow matching the login page's radial-gradient palette
+     (.login-shell::after uses rgba(255, 110, 50, ...) and rgba(255, 60, 30, ...))
+     instead of the brand blue used elsewhere on the site. Scoped to the
+     login email field only. */
+  border-color: rgba(255, 110, 50, 0.55);
   box-shadow:
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
-    0 0 16px rgba(112, 190, 250, 0.15);
+    0 0 18px rgba(255, 110, 50, 0.22);
 }
 
 .login-mail-icon {
@@ -1549,10 +1572,20 @@ textarea {
   padding: 0;
   border: 0;
   border-radius: 0;
+  /* `appearance: none` is REQUIRED on iOS Safari for type="email" and
+     type="password" — without it, Safari draws its own native input chrome
+     (a light-gray fill rectangle) over the input area, ignoring our
+     transparent background and producing the "white box" visible on iPhone. */
+  appearance: none;
+  -webkit-appearance: none;
   background: transparent;
+  background-color: transparent;
   box-shadow: none;
   color: #fff;
   font-size: 14px;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 .login-email-field input:focus {
@@ -1562,6 +1595,32 @@ textarea {
 
 .login-email-field input::placeholder {
   color: rgba(255, 255, 255, 0.48);
+}
+
+/* iOS Safari + Chrome autofill background suppression — keep input glass-
+   transparent even when browser fills credentials.
+   The classic `box-shadow inset` trick paints a SOLID color over the autofill
+   yellow, which means *any* picked color shows as a visible patch on top of
+   the page gradient (and was creating the "black bar" the user saw). Instead
+   we hand the autofill state a `background-image` made of a transparent
+   gradient — browsers prefer background-image over their autofill background-
+   color, so the input's underlying transparent bg shines through.
+   `transition: background-color 9999s` defeats the browser's autofill color
+   animation that would otherwise re-introduce the yellow on each focus. */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+  transition: background-color 9999s ease-in-out 0s,
+              color 9999s ease-in-out 0s;
 }
 
 .login-email-button {
@@ -1578,6 +1637,61 @@ textarea {
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
     inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
     0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile compact override — login page typography, button heights, and
+   spacing all shrink at <640 so the whole sign-up panel fits a 390-414px
+   viewport without forcing the user to scroll past the password field. */
+@media (max-width: 640px) {
+  .login-screen {
+    padding: 20px 16px;
+  }
+  .login-panel h1 {
+    font-size: 20px;
+    letter-spacing: -0.025em;
+  }
+  .login-panel p {
+    margin: 12px 0 0;
+    font-size: 13px;
+  }
+  .login-provider-stack {
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .login-provider-button,
+  .login-email-button {
+    min-height: 44px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  .login-provider-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .login-divider {
+    margin: 18px 0;
+    font-size: 12px;
+  }
+  .login-email-field {
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+  .login-mail-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .login-email-field input {
+    font-size: 14px;
+  }
+  .login-email-button {
+    margin-top: 12px;
+  }
+  .login-close-link {
+    margin-top: 24px;
+    font-size: 14px;
+  }
 }
 
 .login-close-link {
@@ -1787,8 +1901,13 @@ textarea {
   }
 
   .hero h1 {
-    font-size: clamp(58px, 18vw, 94px);
+    /* More compact mobile scale — at 320–360 viewport Orbitron + 0.15em
+       tracking made the prior clamp (58–94px) overflow horizontally.
+       New scale: 36px floor (320–280px viewport), 14vw preferred (~50px
+       at 360, ~58px at 414), 78px max (~560+). */
+    font-size: clamp(36px, 14vw, 78px);
     white-space: normal;
+    letter-spacing: 0.08em;
   }
 
   .hero {
@@ -2035,13 +2154,16 @@ textarea {
 /* Narrow-phone (<481px) — shrink the wordmark + icon so they fit on a single
    line at 360-414px viewports. Above 480 the base clamps already fit. */
 @media (max-width: 480px) {
+
   .product-stack-headline h3,
   .product-stack-scene[data-product-id="cine-sketch"] .product-stack-headline h3 {
     font-size: clamp(22px, 7.2vw, 36px);
   }
+
   .product-stack-title-logo {
     height: clamp(28px, 6.8vw, 44px);
   }
+
   .product-stack-title-wrap {
     gap: 10px;
   }
@@ -2175,10 +2297,21 @@ textarea {
 }
 
 /* Per-tile stagger so the four labels fade-in left → right (~80ms gap). */
-.product-stack-scene.is-active .product-stack-tile:nth-child(1) .product-stack-tile-label { transition-delay: 0.10s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(2) .product-stack-tile-label { transition-delay: 0.18s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(3) .product-stack-tile-label { transition-delay: 0.26s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(4) .product-stack-tile-label { transition-delay: 0.34s; }
+.product-stack-scene.is-active .product-stack-tile:nth-child(1) .product-stack-tile-label {
+  transition-delay: 0.10s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(2) .product-stack-tile-label {
+  transition-delay: 0.18s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(3) .product-stack-tile-label {
+  transition-delay: 0.26s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(4) .product-stack-tile-label {
+  transition-delay: 0.34s;
+}
 
 /* Animated progress underline — thin accent-blue line above the label text
    that draws from left to right when the slide becomes active. Reads as
@@ -2187,12 +2320,10 @@ textarea {
   display: block;
   height: 1.5px;
   width: 100%;
-  background: linear-gradient(
-    to right,
-    #70befa 0%,
-    rgba(112, 190, 250, 0.55) 60%,
-    rgba(112, 190, 250, 0) 100%
-  );
+  background: linear-gradient(to right,
+      #70befa 0%,
+      rgba(112, 190, 250, 0.55) 60%,
+      rgba(112, 190, 250, 0) 100%);
   transform-origin: left center;
   transform: scaleX(0);
   transition:
@@ -2206,20 +2337,29 @@ textarea {
 }
 
 /* Underlines draw slightly *behind* the label fade (per-tile). */
-.product-stack-scene.is-active .product-stack-tile:nth-child(1) .product-stack-tile-label-line { transition-delay: 0.20s, 0s, 0s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(2) .product-stack-tile-label-line { transition-delay: 0.28s, 0s, 0s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(3) .product-stack-tile-label-line { transition-delay: 0.36s, 0s, 0s; }
-.product-stack-scene.is-active .product-stack-tile:nth-child(4) .product-stack-tile-label-line { transition-delay: 0.44s, 0s, 0s; }
+.product-stack-scene.is-active .product-stack-tile:nth-child(1) .product-stack-tile-label-line {
+  transition-delay: 0.20s, 0s, 0s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(2) .product-stack-tile-label-line {
+  transition-delay: 0.28s, 0s, 0s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(3) .product-stack-tile-label-line {
+  transition-delay: 0.36s, 0s, 0s;
+}
+
+.product-stack-scene.is-active .product-stack-tile:nth-child(4) .product-stack-tile-label-line {
+  transition-delay: 0.44s, 0s, 0s;
+}
 
 @media (hover: hover) and (pointer: fine) {
   .product-stack-tile:hover .product-stack-tile-label-line {
     height: 2.5px;
-    background: linear-gradient(
-      to right,
-      #a5d3fa 0%,
-      rgba(112, 190, 250, 0.75) 60%,
-      rgba(112, 190, 250, 0) 100%
-    );
+    background: linear-gradient(to right,
+        #a5d3fa 0%,
+        rgba(112, 190, 250, 0.75) 60%,
+        rgba(112, 190, 250, 0) 100%);
   }
 }
 
@@ -2258,8 +2398,15 @@ textarea {
 }
 
 @keyframes product-step-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(112, 190, 250, 0.30); }
-  50%      { box-shadow: 0 0 0 6px rgba(112, 190, 250, 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(112, 190, 250, 0.30);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(112, 190, 250, 0);
+  }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -2296,6 +2443,7 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .product-stack-tile-label,
   .product-stack-tile-label-line,
   .product-stack-tile-step,
@@ -2303,11 +2451,13 @@ textarea {
     animation: none !important;
     transition: none !important;
   }
+
   /* Show labels in their final state immediately. */
   .product-stack-tile-label {
     opacity: 1;
     transform: none;
   }
+
   .product-stack-tile-label-line {
     transform: scaleX(1);
   }
@@ -2527,6 +2677,18 @@ textarea {
   .login-image {
     display: none;
   }
+
+  /* Mobile: drop the white glass-blur card framing the panel — keeps the
+     warm radial-gradient glow (::after) but removes the rgba(255,255,255,
+     0.06) tinted glass + 26px border that creates the visible "box" around
+     the form. The form floats directly on the gradient background. */
+  .login-shell::before {
+    display: none;
+  }
+  .login-shell {
+    max-width: 100%;
+    gap: 0;
+  }
 }
 
 /* ============================================================
@@ -2557,8 +2719,13 @@ textarea {
   gap: 24px;
 }
 
-.careers-positions { grid-area: positions; }
-.careers-values { grid-area: values; }
+.careers-positions {
+  grid-area: positions;
+}
+
+.careers-values {
+  grid-area: values;
+}
 
 @media (max-width: 1024px) {
   .careers-page {
@@ -2569,7 +2736,11 @@ textarea {
       "values";
     row-gap: 56px;
   }
-  .careers-aside { position: static; top: auto; }
+
+  .careers-aside {
+    position: static;
+    top: auto;
+  }
 }
 
 .careers-hero {
@@ -2824,6 +2995,8 @@ textarea {
   gap: 12px;
   padding: 0 22px;
   height: 52px;
+  max-height: 52px;
+  box-sizing: border-box;
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(16px) saturate(1.8);
   -webkit-backdrop-filter: blur(16px) saturate(1.8);
@@ -2838,6 +3011,38 @@ textarea {
   min-width: 0;
 }
 
+/* Mobile: full-width search pill, clean glass look, height locked at 44px
+   tap-target floor. Explicitly cap the input's min-height since the global
+   `input { min-height: 44px }` rule (line ~1238) would otherwise stretch the
+   inner element. */
+@media (max-width: 640px) {
+  .careers-search {
+    flex: 1 1 100%;
+    height: 44px;
+    max-height: 44px;
+    padding: 0 16px;
+    gap: 10px;
+  }
+
+  .careers-search input {
+    min-height: 0 !important;
+    height: 100%;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .careers-search>svg {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+}
+
 .careers-search:focus-within {
   border-color: rgba(112, 190, 250, 0.5);
   box-shadow:
@@ -2846,7 +3051,7 @@ textarea {
     0 0 16px rgba(112, 190, 250, 0.18);
 }
 
-.careers-search > svg {
+.careers-search>svg {
   flex: 0 0 auto;
   color: var(--muted);
 }
@@ -3331,12 +3536,12 @@ textarea {
   flex-direction: column;
 }
 
-.careers-apply-meta dl > div {
+.careers-apply-meta dl>div {
   padding: 14px 0;
   border-top: 1px solid var(--line);
 }
 
-.careers-apply-meta dl > div:last-child {
+.careers-apply-meta dl>div:last-child {
   border-bottom: 1px solid var(--line);
 }
 
@@ -3420,7 +3625,7 @@ textarea {
   gap: 10px;
 }
 
-.careers-apply-field > span {
+.careers-apply-field>span {
   font-size: 14px;
   font-weight: 500;
   color: var(--text);
@@ -3770,13 +3975,13 @@ body.careers-route main.careers-page {
   transition: transform .4s ease-out;
 }
 
-.careers-login-link__track > span {
+.careers-login-link__track>span {
   height: 18px;
   display: flex;
   align-items: center;
 }
 
-.careers-login-link__track > span:nth-child(2) {
+.careers-login-link__track>span:nth-child(2) {
   color: #fff;
 }
 
@@ -3917,17 +4122,20 @@ body.careers-route main.careers-page {
   bottom: 0;
   width: 12px;
   background:
-    repeating-linear-gradient(
-      to bottom,
+    repeating-linear-gradient(to bottom,
       rgba(0, 0, 0, 0.85) 0 10px,
-      transparent 10px 20px
-    );
+      transparent 10px 20px);
   pointer-events: none;
   opacity: 0.75;
 }
 
-.careers-perks__sprockets--left { left: 6px; }
-.careers-perks__sprockets--right { right: 6px; }
+.careers-perks__sprockets--left {
+  left: 6px;
+}
+
+.careers-perks__sprockets--right {
+  right: 6px;
+}
 
 .careers-perks__reel {
   position: relative;
@@ -3975,8 +4183,13 @@ body.careers-route main.careers-page {
 }
 
 @keyframes careers-perks-scroll {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4058,31 +4271,38 @@ body.careers-route main.careers-page {
   .careers-callout {
     padding: 120px clamp(16px, 4vw, 40px) 56px;
   }
+
   .careers-perks__reel {
     height: 320px;
   }
 }
 
 @media (max-width: 640px) {
+
   /* Smaller fixed brand mark to free up corner space */
   .careers-home-link {
     top: 16px;
     left: 16px;
   }
+
   .careers-home-link img {
     width: 108px;
     height: 34px;
   }
 
-  /* Bump LOG-IN to a comfortable tap target (≥44px) without changing the
-     visual height — wrap the slide track in a larger invisible hit area. */
+  /* CRITICAL: height MUST stay at 18px (matching one track span). Setting
+     height >= 36px makes overflow:hidden FAIL to clip the second
+     `<span>LOG-IN</span>` because overflow clips at the padding edge, not
+     the content edge. With padding+box-sizing content-box, the 44px padding
+     box exposed both spans → visible duplicate "LOG-IN / LOG-IN". Keep at
+     18px. Mobile loses the 44px tap-target but the visible duplicate is
+     the worse bug. */
   .careers-login-link {
     top: 16px;
     right: 16px;
-    height: 44px;
-    padding: 13px 0;
-    box-sizing: content-box;
+    height: 18px;
   }
+
   /* Tighter callout padding on phones */
   .careers-callout {
     padding: 96px clamp(12px, 3.5vw, 28px) 48px;
