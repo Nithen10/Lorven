@@ -119,7 +119,7 @@ function ProcessCard({ step, index, total, progress, range, locked }: ProcessCar
   return (
     <motion.div
       style={motionStyle}
-      className="relative w-full aspect-[4/5]"
+      className="relative w-full max-w-sm mx-auto sm:max-w-none sm:mx-0 aspect-[4/5] xl:max-[2559px]:aspect-[2/3]!"
     >
       <CornerBrackets />
       <div className="absolute inset-5 rounded-2xl border border-white/[0.08] px-4 sm:px-6 md:px-7 lg:px-8 py-8 flex flex-col items-center text-center bg-[linear-gradient(180deg,rgba(13,13,13,0.92),rgba(10,10,10,0.85))] backdrop-blur-[2px] shadow-[0_12px_30px_rgba(0,0,0,0.4)]">
@@ -128,15 +128,15 @@ function ProcessCard({ step, index, total, progress, range, locked }: ProcessCar
             {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
         </div>
-        <div className="mt-8 md:mt-10 lg:mt-12 h-12 md:h-14 lg:h-16 flex items-center justify-center text-white/60">
+        <div className="mt-8 md:mt-10 lg:mt-12 xl:max-[2559px]:mt-6! h-12 md:h-14 lg:h-16 xl:max-[2559px]:h-12! flex items-center justify-center text-white/60">
           {step.icon}
         </div>
-        <h3 className="mt-auto text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-semibold tracking-wide uppercase text-white">
+        <h3 className="mt-auto text-3xl sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl xl:max-[2559px]:text-2xl! min-[2560px]:text-6xl min-[3200px]:text-7xl font-semibold tracking-wide uppercase text-white">
           {step.title}
         </h3>
         <p
-          className="mt-3 md:mt-4 text-sm md:text-base lg:text-[15px] xl:text-base leading-relaxed text-[#9c9c9c] max-w-[28ch] min-h-[10rem] lg:min-h-[12rem]"
-          style={{ fontFamily: '"Inter Tight", "Inter", sans-serif', fontWeight: 300 }}
+          className="mt-3 md:mt-4 text-[14px] sm:text-[13px] md:text-sm lg:text-[13px] xl:text-sm 2xl:text-[15px] 3xl:text-base xl:max-[2559px]:text-[12px]! min-[2560px]:text-lg min-[3200px]:text-xl leading-relaxed tracking-[0.015em] text-white/85 max-w-[28ch] min-h-32 md:min-h-36 lg:min-h-40 2xl:min-h-44 3xl:min-h-52 xl:max-[2559px]:min-h-28! min-[2560px]:min-h-60"
+          style={{ fontFamily: '"Neue Montreal", "Inter", sans-serif', fontWeight: 400 }}
         >
           {step.body}
         </p>
@@ -336,7 +336,7 @@ export function ProcessSection() {
               backgroundClip: 'text',
             }}
           >
-            From Script to Screen
+            From Script to<br /> Screen
           </h2>
           <p className="mt-4 md:mt-5 text-[10px] md:text-xs tracking-[0.24em] uppercase text-[#9c9c9c]">
             One workflow. Every Lorven product follows it.

@@ -230,7 +230,16 @@ function ProductScene({
             <h3>{title}</h3>
           )}
           <div className="product-stack-meta">
-            <p>{body}</p>
+            {product.id === "cine-sketch" ? (
+              <>
+                <p className="hidden md:block">{body}</p>
+                <p className="md:hidden">
+                  Auto-generate shot sketches for each scene with visuals informed by script tone and character emotion. Adjust angles, review characters, and regenerate any shot to match your creative vision.
+                </p>
+              </>
+            ) : (
+              <p>{body}</p>
+            )}
             <HoverRevealButton label={cta} size="md" />
           </div>
         </div>

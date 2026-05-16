@@ -107,13 +107,6 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
                   'radial-gradient(68% 58% at 50% 34%, rgba(112, 190, 250, 0.14), rgba(112, 190, 250, 0.06) 42%, rgba(10, 10, 10, 0) 78%)',
               }}
             />
-            <div
-              className="absolute inset-x-[12%] top-[16%] h-[1px]"
-              style={{
-                background:
-                  'linear-gradient(90deg, rgba(112, 190, 250, 0), rgba(112, 190, 250, 0.35), rgba(255,255,255,0.12), rgba(112, 190, 250, 0))',
-              }}
-            />
           </motion.div>
 
           <motion.div
@@ -132,6 +125,17 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
 
           <div className="relative flex flex-col h-full justify-center">
             <motion.div
+              aria-hidden="true"
+              className="mb-4 h-px max-w-[37rem] origin-right relative top-[-5vh]"
+              initial={false}
+              animate={{ scaleX: isActive ? 1 : 0.15, opacity: isActive ? 1 : 0 }}
+              transition={contentTransition}
+              style={{
+                background:
+                  'linear-gradient(270deg, rgba(112, 190, 250, 0.5), rgba(255,255,255,0.12) 42%, rgba(255,255,255,0.04) 75%, rgba(255,255,255,0))',
+              }}
+            />
+            <motion.div
               className="max-w-[37rem] relative top-[-3vh]"
               initial={false}
               animate={{
@@ -149,8 +153,8 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
               <motion.h3
                 className="whitespace-nowrap font-medium leading-[1.05] tracking-[-0.04em] pb-[0.05em] relative top-[-3vh]"
                 style={{
-                  fontFamily: '"Inter Tight", "Inter", sans-serif',
-                  fontSize: 'clamp(1.75rem, 2.6vw, 3.75rem)',
+                  fontFamily: '"Neue Montreal", "Inter", sans-serif',
+                  fontSize: 'clamp(2rem, 3vw, 4.25rem)',
                 }}
                 initial={false}
                 animate={{
@@ -181,7 +185,7 @@ function ServiceFrame({ service, index, isActive, total, progress }: ServiceFram
                 }}
                 transition={{ ...contentTransition, delay: isActive ? 0.04 : 0 }}
                 style={{
-                  fontFamily: '"Inter Tight", "Inter", sans-serif',
+                  fontFamily: '"Neue Montreal", "Inter", sans-serif',
                   fontWeight: 500,
                   fontSize: 'clamp(0.95rem, 1.05vw, 1.2rem)',
                   lineHeight: 1.35,

@@ -48,7 +48,7 @@ const accountColumn: FooterLink[] = [
 const socialColumn: FooterLink[] = [
 	{ title: 'Facebook', href: '#' },
 	{ title: 'Instagram', href: '#' },
-	{ title: 'Tiktok', href: '#' },
+	{ title: 'Youtube', href: '#' },
 ];
 
 export function Footer() {
@@ -112,9 +112,9 @@ export function Footer() {
 				}}
 			/>
 
-			<div className="relative z-10 grid w-full grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
+			<div className="relative z-10 mt-6 md:mt-10 lg:mt-14 xl:max-[2559px]:-translate-y-12 grid w-full grid-cols-2 gap-y-12 gap-x-8 md:grid-cols-12 md:gap-x-10 lg:gap-x-16">
 				<AnimatedContainer className="md:col-span-3">
-					<ul className="space-y-4 text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-[#9c9c9c]">
+					<ul className="space-y-4 text-xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl 3xl:text-5xl 3xl:max-[2559px]:text-3xl min-[2560px]:text-6xl text-[#9c9c9c]">
 						{navColumn.map((link) => (
 							<li key={link.title}>
 								<a
@@ -129,7 +129,7 @@ export function Footer() {
 				</AnimatedContainer>
 
 				<AnimatedContainer delay={0.1} className="md:col-span-2">
-					<ul className="space-y-4 text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-[#9c9c9c]">
+					<ul className="space-y-4 text-xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-3xl 2xl:text-3xl 3xl:text-5xl 3xl:max-[2559px]:text-3xl min-[2560px]:text-6xl text-[#9c9c9c]">
 						{accountColumn.map((link) => (
 							<li key={link.title}>
 								<Link
@@ -145,7 +145,7 @@ export function Footer() {
 				</AnimatedContainer>
 
 				<AnimatedContainer delay={0.2} className="col-span-2 md:col-span-5 md:pl-16 lg:pl-24 xl:pl-32">
-					<div className="space-y-3 sm:space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-white break-words">
+					<div className="space-y-3 sm:space-y-4 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 3xl:max-[2559px]:text-2xl min-[2560px]:text-5xl text-white break-words">
 						<a
 							href="mailto:info@lorvenaistudio.com"
 							className="block transition-colors duration-300 hover:text-[#70befa]"
@@ -165,7 +165,7 @@ export function Footer() {
 				</AnimatedContainer>
 
 				<AnimatedContainer delay={0.3} className="md:col-span-2 md:justify-self-end">
-					<ul className="space-y-3 sm:space-y-4 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-white md:text-right">
+					<ul className="space-y-3 sm:space-y-4 text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl 3xl:text-4xl 3xl:max-[2559px]:text-2xl min-[2560px]:text-5xl text-white md:text-right">
 						{socialColumn.map((link) => (
 							<li key={link.title}>
 								<a
@@ -180,11 +180,11 @@ export function Footer() {
 				</AnimatedContainer>
 			</div>
 
-			<div className="relative z-10 mt-auto flex items-center gap-3 pt-3 sm:block sm:pt-0">
+			<div className="relative z-10 mt-auto flex items-center gap-3 pt-3 sm:block sm:pt-0 xl:max-[2559px]:translate-y-10">
 				<motion.h2
-					className="relative select-none whitespace-nowrap leading-none text-white flex-1 min-w-0 sm:leading-[0.85]"
+					className="footer-wordmark relative select-none whitespace-nowrap leading-none text-white flex-1 min-w-0 sm:leading-[0.85]"
 					style={{
-						fontFamily: '"Orbitron", "Inter Tight", "Inter", sans-serif',
+						fontFamily: '"Orbitron", "Neue Montreal", "Inter", sans-serif',
 						fontWeight: 700,
 						/* Mobile floor reduced to 22px so the full "Lorven AI Studio"
 						   wordmark (16 chars in Orbitron Bold) fits next to the
@@ -194,7 +194,7 @@ export function Footer() {
 						   that pushed the wordmark below the arrow at mobile.
 						   scaleY: 1 on mobile (was 1.15) so the stretched glyph tops
 						   don't extend above their line box and get clipped. */
-						fontSize: 'clamp(22px, 7.5vw, 170px)',
+						fontSize: 'clamp(31px, 10vw, 245px)',
 						letterSpacing: '-0.04em',
 						top: 0,
 						scaleY: 1,
@@ -206,7 +206,7 @@ export function Footer() {
 				</motion.h2>
 
 				<motion.div
-					className="shrink-0 sm:absolute sm:right-4 sm:bottom-0 md:right-12"
+					className="shrink-0 sm:absolute sm:right-4 sm:bottom-2 md:right-12 md:bottom-3 lg:bottom-5"
 					style={{
 						opacity: reduceMotion ? 1 : buttonOpacity,
 						scale: reduceMotion ? 1 : buttonScale,
@@ -229,7 +229,7 @@ export function Footer() {
 				</motion.div>
 			</div>
 
-			<div className="relative z-10 mt-12 sm:mt-20 md:mt-24 lg:mt-32 flex flex-col items-start justify-between gap-3 text-xs sm:text-sm md:text-lg lg:text-xl xl:text-2xl text-white md:flex-row md:items-center md:flex-wrap">
+			<div className="relative z-10 mt-12 sm:mt-20 md:mt-24 lg:mt-32 -translate-y-3 md:-translate-y-4 lg:-translate-y-6 flex flex-col items-start justify-between gap-3 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-2xl 3xl:text-3xl min-[2560px]:text-4xl text-white md:flex-row md:items-center md:flex-wrap">
 				<span className="whitespace-nowrap">© All rights reserved {new Date().getFullYear()}</span>
 				<div className="flex flex-wrap gap-4 sm:gap-6 md:gap-10 lg:mr-4">
 					<Link

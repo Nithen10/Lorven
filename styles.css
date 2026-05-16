@@ -38,14 +38,6 @@
 }
 
 @font-face {
-  font-family: "Bebas Neue Book";
-  src: url("/fonts/BebasNeue-Book.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
   font-family: "Orbitron";
   src: url("/fonts/Orbitron-Medium.otf") format("opentype");
   font-weight: 500;
@@ -58,6 +50,62 @@
   src: url("/fonts/Orbitron-Bold.otf") format("opentype");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-book.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-bold.otf") format("opentype");
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/ppneuemontreal-semibolditalic.otf") format("opentype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("/fonts/NeueMontreal-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -105,6 +153,7 @@ html {
      wider than the visible viewport, regardless of child overflow. */
   overflow-x: clip;
   max-width: 100%;
+  font-synthesis: none;
 }
 
 body {
@@ -115,7 +164,7 @@ body {
   background:
     radial-gradient(50% 24% at 50% 0%, rgba(112, 190, 250, .16), rgba(10, 10, 10, 0) 78%),
     var(--bg);
-  font-family: Inter, Arial, sans-serif;
+  font-family: "Neue Montreal", Inter, Arial, sans-serif;
   overflow-x: clip;
   position: relative;
 }
@@ -271,7 +320,7 @@ h1,
 }
 
 .service-tag {
-  font-family: Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
 }
 
 .hero p {
@@ -283,8 +332,8 @@ h1,
 
 .hero-catchphrase {
   margin: 0 0 8px !important;
-  font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(24px, 2.8vw, 38px) !important;
+  font-family: "Neue Montreal", Inter, sans-serif;
+  font-size: clamp(28px, 3.2vw, 44px) !important;
   font-weight: 400 !important;
   line-height: 1.25;
   letter-spacing: -0.01em;
@@ -293,6 +342,7 @@ h1,
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  transform: translateY(10px);
 }
 
 .hero-catchphrase em {
@@ -396,7 +446,7 @@ h1,
 }
 
 .intro h2 {
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(36px, 5.2vw, 68px);
   line-height: 1.2;
   font-weight: 700;
@@ -428,7 +478,7 @@ h1,
   align-items: center;
   justify-content: center;
   color: rgba(112, 190, 250, .07);
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(170px, 28vw, 440px);
   font-weight: 700;
   z-index: -1;
@@ -437,7 +487,7 @@ h1,
 
 .section-title {
   margin: 0 0 64px;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(62px, 9vw, 100px);
   line-height: .95;
   font-weight: 500;
@@ -516,7 +566,7 @@ h1,
 .process-card h3,
 .team-track h3 {
   margin: 28px 0 14px;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(24px, 3.5vw, 35px);
   line-height: 1.1;
   font-weight: 500;
@@ -983,7 +1033,7 @@ pre {
 }
 
 .product-grid h3 {
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: 32px;
   font-weight: 500;
   margin: 0 0 16px;
@@ -991,7 +1041,7 @@ pre {
 
 .product-grid strong {
   display: block;
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: 20px;
   font-weight: 500;
   color: transparent;
@@ -1045,7 +1095,7 @@ pre {
 
 .center-title h2,
 .contact h2 {
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: clamp(62px, 9vw, 100px);
   line-height: 1;
   font-weight: 500;
@@ -1090,7 +1140,7 @@ pre {
 .faq-card {
   display: flex;
   flex-direction: column;
-  font-family: "Inter Tight", "Inter", sans-serif;
+  font-family: "Neue Montreal", "Inter", sans-serif;
 }
 
 .faq-card>.tilt-inner {
@@ -1104,7 +1154,7 @@ pre {
 }
 
 .pricing-grid strong {
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: 46px;
   font-weight: 500;
   display: block;
@@ -1112,7 +1162,7 @@ pre {
 }
 
 .pricing-grid strong span {
-  font: 700 14px Inter;
+  font: 700 14px "Neue Montreal", Inter, sans-serif;
   color: #fff;
 }
 
@@ -1191,7 +1241,7 @@ details[open] summary::after {
   grid-template-columns: .9fr 1.1fr;
   gap: clamp(40px, 10vw, 80px);
   align-items: center;
-  font-family: "Inter Tight", "Inter", sans-serif;
+  font-family: "Neue Montreal", "Inter", sans-serif;
 }
 
 .contact input,
@@ -1306,7 +1356,7 @@ textarea {
 }
 
 .newsletter h2 {
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: clamp(24px, 4vw, 36px);
   margin: 0 0 10px;
   font-weight: 500;
@@ -1456,7 +1506,7 @@ textarea {
 .login-panel h1 {
   margin: 0;
   color: #fafafa;
-  font-family: Inter, Arial, sans-serif;
+  font-family: "Neue Montreal", Inter, Arial, sans-serif;
   font-size: clamp(24px, 2vw, 30px);
   line-height: 1.3;
   font-weight: 500;
@@ -2099,7 +2149,7 @@ textarea:-webkit-autofill:active {
 }
 
 .product-stack-headline h3 {
-  font-family: "Orbitron", "Inter Tight", sans-serif;
+  font-family: "Orbitron", "Neue Montreal", sans-serif;
   font-size: clamp(40px, 5.6vw, 120px);
   font-weight: 500;
   line-height: 1;
@@ -2117,7 +2167,7 @@ textarea:-webkit-autofill:active {
    Anton, so we shrink the font-size slightly to keep the wordmark within the
    left grid column without forcing the logo to wrap onto a new line. */
 .product-stack-scene[data-product-id="cine-sketch"] .product-stack-headline h3 {
-  font-family: "Orbitron", "Big Shoulders Display", "Anton", "Inter Tight", sans-serif;
+  font-family: "Orbitron", "Neue Montreal", sans-serif;
   font-weight: 500;
   letter-spacing: .005em;
   font-size: clamp(40px, 5.6vw, 120px);
@@ -2181,7 +2231,7 @@ textarea:-webkit-autofill:active {
 
 .product-stack-meta p {
   color: var(--muted);
-  font-family: "Inter Tight", "Inter", sans-serif;
+  font-family: "Neue Montreal", "Inter", sans-serif;
   font-size: 16px;
   line-height: 1.55;
   margin: 0;
@@ -2192,7 +2242,7 @@ textarea:-webkit-autofill:active {
   border: 0;
   background: linear-gradient(180deg, #ffffff 0%, #e6f4ff 100%);
   color: #061018;
-  font-family: "Inter Tight";
+  font-family: "Neue Montreal";
   font-size: 13px;
   font-weight: 600;
   letter-spacing: .14em;
@@ -2382,7 +2432,7 @@ textarea:-webkit-autofill:active {
   border-radius: 999px;
   background: rgba(112, 190, 250, 0.10);
   border: 1px solid rgba(112, 190, 250, 0.28);
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 700;
   font-size: clamp(11px, 0.85vw, 14px);
   color: #70befa;
@@ -2419,7 +2469,7 @@ textarea:-webkit-autofill:active {
 }
 
 .product-stack-tile-title {
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 600;
   font-size: clamp(14px, 1.55vw, 24px);
   color: transparent;
@@ -2793,7 +2843,7 @@ textarea:-webkit-autofill:active {
 
 .careers-hero__copy h1 {
   margin: 0 0 18px;
-  font-family: "Bebas Neue", "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 700;
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1;
@@ -2825,7 +2875,7 @@ textarea:-webkit-autofill:active {
 
 .careers-values__heading h2 {
   margin: 4px 0 0;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 600;
   font-size: clamp(26px, 2.4vw, 34px);
   line-height: 1.1;
@@ -2839,7 +2889,7 @@ textarea:-webkit-autofill:active {
   font-size: 14px;
   line-height: 1.55;
   max-width: 38ch;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
 }
 
 .careers-values__list {
@@ -2967,7 +3017,7 @@ textarea:-webkit-autofill:active {
 
 .careers-positions__header h2 {
   margin: 0 0 6px;
-  font-family: "Bebas Neue", "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 700;
   font-size: clamp(34px, 4vw, 48px);
   letter-spacing: 0.5px;
@@ -3374,7 +3424,7 @@ textarea:-webkit-autofill:active {
   border-radius: 999px;
   background: transparent;
   color: #fff;
-  font-family: Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -3523,7 +3573,7 @@ textarea:-webkit-autofill:active {
 
 .careers-apply-meta h1 {
   margin: 0 0 24px;
-  font-family: "Bebas Neue", "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 700;
   font-size: clamp(28px, 3vw, 36px);
   letter-spacing: 0.5px;
@@ -3757,7 +3807,7 @@ textarea:-webkit-autofill:active {
   border-radius: 999px;
   background: transparent;
   color: #fff;
-  font-family: Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -3856,7 +3906,7 @@ textarea:-webkit-autofill:active {
 
 .careers-apply-missing h1 {
   margin: 0 0 12px;
-  font-family: "Bebas Neue", "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: 36px;
 }
 
@@ -3960,7 +4010,7 @@ body.careers-route main.careers-page {
   display: inline-block;
   overflow: hidden;
   height: 18px;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -4032,7 +4082,7 @@ body.careers-route main.careers-page {
 
 .careers-callout__title {
   margin: 0;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-weight: 600;
   font-size: clamp(40px, 5.4vw, 76px);
   line-height: 1.04;
@@ -4048,7 +4098,7 @@ body.careers-route main.careers-page {
   margin: 0;
   max-width: 64ch;
   color: var(--muted);
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(15px, 1.1vw, 17px);
   line-height: 1.6;
 }
@@ -4056,7 +4106,7 @@ body.careers-route main.careers-page {
 .careers-callout__role-line {
   margin: 12px 0 0;
   color: var(--text);
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   font-size: clamp(18px, 1.6vw, 24px);
   font-weight: 500;
   letter-spacing: -0.005em;
@@ -4112,7 +4162,7 @@ body.careers-route main.careers-page {
   text-transform: uppercase;
   color: var(--muted);
   font-weight: 600;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
   text-align: center;
 }
 
@@ -4160,7 +4210,7 @@ body.careers-route main.careers-page {
   align-items: center;
   gap: 14px;
   padding: 12px 4px;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
 }
 
 .careers-perks__icon-square {
@@ -4220,7 +4270,7 @@ body.careers-route main.careers-page {
   text-transform: uppercase;
   color: var(--muted);
   font-weight: 600;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
 }
 
 .careers-company__list {
@@ -4236,7 +4286,7 @@ body.careers-route main.careers-page {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: "Neue Montreal", Inter, sans-serif;
 }
 
 .careers-company__icon {
@@ -4316,5 +4366,119 @@ body.careers-route main.careers-page {
   /* Pause the perks reel on phones to save battery — labels stay visible */
   .careers-perks__list {
     animation: none;
+  }
+}
+
+/* Robust footer "Lorven AI Studio" wordmark sizing across all viewports.
+   Goal: text width + comfortable gap + button = container width at every size.
+   "Lorven AI Studio" ≈ 9em wide in Orbitron Bold with -0.04em letter-spacing
+   (refined estimate after visual testing — initial 8.8 was slightly low).
+   Reserve includes a 40px buffer so the final "o" never touches the button.
+   `!important` is required to override the inline style on motion.h2. */
+
+/* Mobile (< 640px): flex layout, button is a flex child (not absolute).
+   Reserve = px-6 padding (48) + button min (36) + 40 buffer = 124 */
+.footer-wordmark {
+  font-size: max(20px, calc((100vw - 124px) / 9)) !important;
+}
+
+/* sm (640+): block layout, button absolute right-4 (16). Footer px-8 (64).
+   Reserve = 64 + 16 + 40 buffer = 120 (plus dynamic button width) */
+@media (min-width: 640px) {
+  .footer-wordmark {
+    font-size: calc((100vw - 120px - clamp(44px, 7vw, 140px)) / 9) !important;
+  }
+}
+
+/* md (768+): button moves to right-12 (48). Footer px-10 (80).
+   Reserve = 80 + 48 + 40 buffer = 168 (plus dynamic button width) */
+@media (min-width: 768px) {
+  .footer-wordmark {
+    font-size: calc((100vw - 168px - clamp(44px, 7vw, 140px)) / 9) !important;
+  }
+}
+
+/* lg (1024+): footer padding px-14 (112).
+   Reserve = 112 + 48 + 40 buffer = 200 (plus dynamic button width) */
+@media (min-width: 1024px) {
+  .footer-wordmark {
+    font-size: calc((100vw - 200px - clamp(44px, 7vw, 140px)) / 9) !important;
+  }
+}
+
+/* iOS Safari backdrop-filter bug fix (mobile only).
+   On iOS Safari, `backdrop-filter: blur()` over dark backgrounds with z-indexed
+   layered structures renders as a solid white block. This affects:
+     1. The "Submit Application" button on the careers job page — multiple
+        decorative layers (blur/tint/rim/border/hover) plus isolation context
+        trigger the bug, rendering as a white pill with invisible label.
+     2. Inputs on the login/signup page — backdrop-filter parent renders white.
+   Desktop/laptop layouts are completely untouched (>768px). */
+@media (max-width: 768px) {
+  /* Career CTA buttons: hide ALL decorative layers and render as a clean
+     solid blue pill. The layered glass effect (blur/tint/rim/border/hover
+     layers stacked with isolation:isolate) is the iOS Safari bug trigger
+     that renders the button as a solid white pill with invisible white
+     label text. Stripping the layers gives a guaranteed-visible button.
+     Covers BOTH the "Submit Application" form button on the job-detail page
+     AND the "Apply for this role" CTA on the careers listing page. */
+  .careers-apply-submit-btn,
+  .careers-apply-cta {
+    background: var(--blue);
+    color: #0a0a0a;
+    isolation: auto;
+  }
+  .careers-apply-submit-btn__blur,
+  .careers-apply-submit-btn__tint,
+  .careers-apply-submit-btn__rim,
+  .careers-apply-submit-btn__border,
+  .careers-apply-submit-btn__hover,
+  .careers-apply-cta__blur,
+  .careers-apply-cta__tint,
+  .careers-apply-cta__rim,
+  .careers-apply-cta__border,
+  .careers-apply-cta__hover {
+    display: none;
+  }
+  .careers-apply-submit-btn__label,
+  .careers-apply-cta__label {
+    color: #0a0a0a;
+  }
+
+  /* Login fields: match the desktop glass appearance exactly — same 6% white
+     tint, 25% white border, and inset highlights — only dropping the
+     backdrop-filter (the iOS bug trigger). The warm page gradient shows
+     through subtly, exactly as it does on desktop/laptop. The inset top
+     highlight + outer shadow recreate the "glass edge" illusion without
+     needing backdrop blur. */
+  .login-email-field {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
+      0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* iOS Safari sometimes draws a faint native fill behind type="text"/email/
+     password even with appearance:none — force the input transparent so only
+     the parent's glass tint shows. */
+  .login-email-field input {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .login-email-button {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
+      0 2px 12px rgba(0, 0, 0, 0.1);
   }
 }

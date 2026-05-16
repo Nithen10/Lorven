@@ -225,7 +225,7 @@ export function LiquidMetalButton({
             {viewMode === "text" && (
               <span
                 style={{
-                  fontFamily: "Inter, sans-serif",
+                  fontFamily: '"Neue Montreal", Inter, sans-serif',
                   fontSize: "14px",
                   color: "#ffffff",
                   fontWeight: 600,

@@ -32,7 +32,7 @@ export function ServiceStepsAccordion({ steps }: ServiceStepsAccordionProps) {
             >
               <span
                 className="pr-4 sm:pr-6 text-[1.05rem] sm:text-[1.2rem] md:text-[1.4rem] font-semibold leading-snug text-white transition-colors duration-300"
-                style={{ fontFamily: '"Inter Tight", "Inter", sans-serif' }}
+                style={{ fontFamily: '"Neue Montreal", "Inter", sans-serif' }}
               >
                 {step.title}
               </span>
@@ -59,8 +59,8 @@ export function ServiceStepsAccordion({ steps }: ServiceStepsAccordionProps) {
             >
               <div className="overflow-hidden">
                 <p
-                  className="max-w-[40rem] pr-4 sm:pr-8 text-[0.95rem] sm:text-base md:text-[1.05rem] leading-[1.7] sm:leading-[1.8] text-white/55"
-                  style={{ fontFamily: '"Inter Tight", "Inter", sans-serif', fontWeight: 300 }}
+                  className="max-w-[40rem] pr-4 sm:pr-8 text-base sm:text-[1.1rem] md:text-[1.2rem] leading-[1.7] sm:leading-[1.8] tracking-[0.015em] text-white/85"
+                  style={{ fontFamily: '"Neue Montreal", "Inter", sans-serif', fontWeight: 400 }}
                 >
                   {step.body}
                 </p>
