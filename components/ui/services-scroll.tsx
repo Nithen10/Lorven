@@ -40,18 +40,6 @@ const SERVICES: Service[] = [
     alt: 'img10',
   },
   {
-    title: 'Production Workflows',
-    body: 'Production moves fast, and small version mismatches create expensive confusion. This workflow keeps scripts, schedules, shot lists, notes, and approvals connected so updates move across the pipeline instead of getting lost between tools. The result is a clearer operating view and fewer last-minute surprises on set.',
-    tags: ['Pipeline sync', 'Version control', 'Risk visibility'],
-    steps: [
-      { title: 'How does this connect to the tools we already use?', body: 'The workflow is built to sit around your existing production stack rather than replace it. Tools such as script platforms, scheduling systems, review spaces, and team workspaces can be connected so information stays linked across departments.' },
-      { title: 'What happens when one part of the production plan changes?', body: 'When a script page, schedule item, or review note is updated, the connected workflow can reflect that change across related documents and teams. This reduces manual follow-up and helps everyone work from the same current version.' },
-      { title: 'How does it prevent production mistakes before they escalate?', body: 'The system highlights stale files, missing approvals, broken dependencies, and version conflicts before they hit the floor. That gives producers and coordinators time to fix issues early instead of discovering them during prep or on shoot day.' },
-    ],
-    image: '/img16.webp',
-    alt: 'img16',
-  },
-  {
     title: 'Pitch Craft',
     body: 'Turn your script, treatment, or concept package into a presentation that is easier to pitch with confidence. The system assembles the story materials, visual references, and positioning elements investors and partners need to understand the project quickly. Your team starts from a polished first version and refines it for the room.',
     tags: ['Pitch structure', 'Mood boards', 'Synopsis support'],
@@ -62,6 +50,18 @@ const SERVICES: Service[] = [
     ],
     image: '/img11.webp',
     alt: 'Pitch Craft reference',
+  },
+  {
+    title: 'Production Workflows',
+    body: 'Production moves fast, and small version mismatches create expensive confusion. This workflow keeps scripts, schedules, shot lists, notes, and approvals connected so updates move across the pipeline instead of getting lost between tools. The result is a clearer operating view and fewer last-minute surprises on set.',
+    tags: ['Pipeline sync', 'Version control', 'Risk visibility'],
+    steps: [
+      { title: 'How does this connect to the tools we already use?', body: 'The workflow is built to sit around your existing production stack rather than replace it. Tools such as script platforms, scheduling systems, review spaces, and team workspaces can be connected so information stays linked across departments.' },
+      { title: 'What happens when one part of the production plan changes?', body: 'When a script page, schedule item, or review note is updated, the connected workflow can reflect that change across related documents and teams. This reduces manual follow-up and helps everyone work from the same current version.' },
+      { title: 'How does it prevent production mistakes before they escalate?', body: 'The system highlights stale files, missing approvals, broken dependencies, and version conflicts before they hit the floor. That gives producers and coordinators time to fix issues early instead of discovering them during prep or on shoot day.' },
+    ],
+    image: '/img16.webp',
+    alt: 'img16',
   },
 ];
 
@@ -135,6 +135,8 @@ export function ServicesScroll() {
                 src={img.src}
                 alt={img.alt}
                 className="aspect-square w-full object-cover rounded-lg"
+                loading="lazy"
+                decoding="async"
               />
             ),
           )}
@@ -149,6 +151,8 @@ export function ServicesScroll() {
                 src={s.image}
                 alt={s.alt}
                 className="aspect-[3/4] w-full object-cover rounded-2xl border border-white/10"
+                loading="lazy"
+                decoding="async"
               />
               <div>
                 <span className="text-xs tracking-[0.18em] uppercase text-[#70befa]">
@@ -193,6 +197,7 @@ export function ServicesScroll() {
               alt={s.alt}
               className="aspect-[3/4] w-full object-cover rounded-2xl border border-white/10"
               loading="lazy"
+              decoding="async"
             />
             <span className="mt-6 block text-xs tracking-[0.18em] uppercase text-[#70befa]">
               {String(i + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}

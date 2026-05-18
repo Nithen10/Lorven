@@ -19,8 +19,18 @@ export function TiltCard({ children, className, index = 0 }: TiltCardProps) {
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
+  const rectRef = React.useRef<DOMRect | null>(null);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    rectRef.current = e.currentTarget.getBoundingClientRect();
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+    let rect = rectRef.current;
+    if (!rect) {
+      rect = e.currentTarget.getBoundingClientRect();
+      rectRef.current = rect;
+    }
     const xPct = (e.clientX - rect.left) / rect.width - 0.5;
     const yPct = (e.clientY - rect.top) / rect.height - 0.5;
     x.set(xPct);
@@ -28,9 +38,24 @@ export function TiltCard({ children, className, index = 0 }: TiltCardProps) {
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     x.set(0);
     y.set(0);
   };
+
+  // Cached rect becomes stale when the page scrolls or resizes. Invalidate
+  // so the next mousemove recomputes once.
+  React.useEffect(() => {
+    const invalidate = () => {
+      rectRef.current = null;
+    };
+    window.addEventListener("scroll", invalidate, { passive: true });
+    window.addEventListener("resize", invalidate);
+    return () => {
+      window.removeEventListener("scroll", invalidate);
+      window.removeEventListener("resize", invalidate);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -44,6 +69,7 @@ export function TiltCard({ children, className, index = 0 }: TiltCardProps) {
       }}
       style={{ perspective: "800px" }}
       className={className}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

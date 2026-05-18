@@ -84,13 +84,19 @@ export function ProductsScrollSection() {
     );
     if (scenes.length === 0) return;
 
-    const update = () => {
+    let rafId: number | null = null;
+    let lastActive = -1;
+
+    const apply = () => {
+      rafId = null;
       const sectionTop = container.getBoundingClientRect().top + window.scrollY;
       const vh = window.innerHeight;
       // Each scene occupies one viewport of scroll. Active = how many viewports
       // past the section's top we are. Clamp to the last scene.
       const raw = Math.floor((window.scrollY - sectionTop) / vh);
       const active = Math.max(0, Math.min(scenes.length - 1, raw));
+      if (active === lastActive) return;
+      lastActive = active;
       scenes.forEach((scene, i) => {
         if (i === active) {
           scene.removeAttribute("inert");
@@ -102,7 +108,23 @@ export function ProductsScrollSection() {
       });
     };
 
-    update();
+    const update = () => {
+      if (rafId !== null) return;
+      rafId = window.requestAnimationFrame(apply);
+    };
+
+    apply();
+
+    // Promote scenes to their own compositor layer only while the stack is
+    // near the viewport. Saves persistent GPU layer memory when scrolled away.
+    const wrapIo = new IntersectionObserver(
+      ([entry]) => {
+        container.classList.toggle("is-in-stack", entry.isIntersecting);
+      },
+      { rootMargin: "300px 0px 300px 0px" },
+    );
+    wrapIo.observe(container);
+
     window.addEventListener("resize", update);
     const lenis = getLenis();
     let detach: (() => void) | null = null;
@@ -114,6 +136,11 @@ export function ProductsScrollSection() {
       detach = () => window.removeEventListener("scroll", update);
     }
     return () => {
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+      wrapIo.disconnect();
       window.removeEventListener("resize", update);
       detach?.();
       // Don't leave any scene inert or marked active if the component unmounts mid-stack.
@@ -121,6 +148,7 @@ export function ProductsScrollSection() {
         scene.removeAttribute("inert");
         scene.classList.remove("is-active");
       });
+      container.classList.remove("is-in-stack");
     };
   }, []);
 
@@ -224,6 +252,8 @@ function ProductScene({
                 aria-hidden="true"
                 className="product-stack-title-logo"
                 draggable={false}
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ) : (
@@ -253,6 +283,7 @@ function ProductScene({
                     alt=""
                     className="product-stack-tile-img"
                     loading="lazy"
+                    decoding="async"
                     draggable={false}
                   />
                   <div className="product-stack-tile-label">

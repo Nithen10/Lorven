@@ -127,9 +127,7 @@ export default function ClientEffects() {
           }
         };
 
-        restoreFrameId = requestAnimationFrame(() => {
-          restoreFrameId = requestAnimationFrame(tryScroll);
-        });
+        restoreFrameId = requestAnimationFrame(tryScroll);
       }
     }
 

@@ -1,7 +1,40 @@
 'use client';
 
 import { useScroll, useTransform, motion } from 'framer-motion';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+
+function ParallaxVideo({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          v.play().catch(() => {});
+        } else {
+          v.pause();
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      className="h-full w-full object-cover"
+    />
+  );
+}
 
 interface Image {
   src: string;
@@ -41,19 +74,14 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
             >
               <div className="relative h-[25vh] w-[25vw]">
                 {src.endsWith('.mp4') ? (
-                  <video
-                    src={src}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="h-full w-full object-cover"
-                  />
+                  <ParallaxVideo src={src} />
                 ) : (
                   <img
                     src={src}
                     alt={alt || `Parallax image ${index + 1}`}
                     className={`h-full w-full ${index === 7 ? 'object-contain' : 'object-cover'}`}
+                    loading="lazy"
+                    decoding="async"
                   />
                 )}
               </div>

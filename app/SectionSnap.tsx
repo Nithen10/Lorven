@@ -99,12 +99,29 @@ export default function SectionSnap() {
     }
 
     refresh();
-    window.addEventListener('resize', refresh);
+    // ResizeObserver on <body> fires once per layout settle instead of
+    // firing on every pixel of a window-drag. Also catches layout-shift
+    // refresh triggers (images loading, fonts swapping) that window 'resize'
+    // misses entirely.
+    let refreshRafId: number | null = null;
+    const scheduleRefresh = () => {
+      if (refreshRafId !== null) return;
+      refreshRafId = window.requestAnimationFrame(() => {
+        refreshRafId = null;
+        refresh();
+      });
+    };
+    const ro = new ResizeObserver(scheduleRefresh);
+    ro.observe(document.body);
     const settle = window.setTimeout(refresh, 600);
 
     return () => {
       detach();
-      window.removeEventListener('resize', refresh);
+      ro.disconnect();
+      if (refreshRafId !== null) {
+        window.cancelAnimationFrame(refreshRafId);
+        refreshRafId = null;
+      }
       window.clearTimeout(settle);
       if (stopTimer !== null) window.clearTimeout(stopTimer);
       if (pollId !== null) window.clearInterval(pollId);

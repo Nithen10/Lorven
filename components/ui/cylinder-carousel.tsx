@@ -50,7 +50,7 @@ function CardMedia({ src, alt }: { src: string; alt: string }) {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
         onError={() => setErrored(true)}
         aria-label={alt}
         className="absolute inset-0 w-full h-full object-cover"

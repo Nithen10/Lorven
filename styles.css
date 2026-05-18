@@ -372,15 +372,35 @@ h1,
 .particle-field {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(112, 190, 250, .45) 1px, transparent 1.8px),
-    radial-gradient(circle, rgba(255, 255, 255, .22) 1px, transparent 1.5px);
-  background-size: 95px 95px, 130px 130px;
   mask-image: radial-gradient(55% 35% at 65% 50%, #000, transparent 70%);
-  animation: drift 22s linear infinite;
+  -webkit-mask-image: radial-gradient(55% 35% at 65% 50%, #000, transparent 70%);
   opacity: .35;
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
+}
+
+/* Particle layers split into two pseudo-elements so each can drift via
+   GPU-accelerated transform instead of paint-heavy background-position. */
+.particle-field::before,
+.particle-field::after {
+  content: '';
+  position: absolute;
+  inset: -400px;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.particle-field::before {
+  background-image: radial-gradient(circle, rgba(112, 190, 250, .45) 1px, transparent 1.8px);
+  background-size: 95px 95px;
+  animation: drift-a 22s linear infinite;
+}
+
+.particle-field::after {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, .22) 1px, transparent 1.5px);
+  background-size: 130px 130px;
+  animation: drift-b 22s linear infinite;
 }
 
 .hero-carousel-frame {
@@ -667,7 +687,7 @@ svg.avatar {
   inset: 0;
   background-image: radial-gradient(circle, rgba(112, 190, 250, .62) 1px, transparent 2px);
   background-size: 55px 42px;
-  animation: drift 14s linear infinite;
+  animation: drift-a 14s linear infinite;
   opacity: .32;
 }
 
@@ -1907,13 +1927,23 @@ textarea:-webkit-autofill:active {
   }
 }
 
-@keyframes drift {
+@keyframes drift-a {
   from {
-    background-position: 0 0, 0 0;
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    background-position: 240px 120px, -180px 220px;
+    transform: translate3d(240px, 120px, 0);
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-180px, 220px, 0);
   }
 }
 
@@ -2115,6 +2145,11 @@ textarea:-webkit-autofill:active {
   padding: clamp(80px, 8vh, 104px) clamp(20px, 3vw, 40px) clamp(20px, 3vw, 32px);
   box-sizing: border-box;
   transform-origin: center center;
+}
+
+/* Promote scenes to a compositor layer only while the products stack is
+   near the viewport (toggled from ProductsScrollSection via IO). */
+.products-stack-wrap.is-in-stack .product-stack-scene {
   will-change: transform, opacity;
 }
 
@@ -4481,4 +4516,16 @@ body.careers-route main.careers-page {
       inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
       0 2px 12px rgba(0, 0, 0, 0.1);
   }
+}
+
+/* Skip layout + paint for static sections while off-screen. Browser still
+   renders them when within ~one viewport of arrival, so reveal animations
+   and scroll-into-view behavior are unaffected. Sticky / pinned sections
+   are intentionally excluded — content-visibility breaks sticky positioning. */
+.intro,
+.team,
+.faq,
+.contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
