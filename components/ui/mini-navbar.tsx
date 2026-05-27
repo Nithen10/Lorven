@@ -7,14 +7,17 @@ const AnimatedNavLink = ({
   href,
   children,
   isActive,
+  onMouseEnter,
 }: {
   href: string;
   children: React.ReactNode;
   isActive?: boolean;
+  onMouseEnter?: () => void;
 }) => {
   return (
     <a
       href={href}
+      onMouseEnter={onMouseEnter}
       className={`group relative inline-block overflow-hidden h-5 flex items-center text-sm font-semibold tracking-[0.12em] uppercase`}
       data-nav-href={href}
     >
@@ -31,6 +34,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [headerShapeClass, setHeaderShapeClass] = useState("rounded-full");
   const [activeSection, setActiveSection] = useState("");
+  const [hoveredHref, setHoveredHref] = useState("");
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLElement | null>(null);
   const [indicator, setIndicator] = useState({ left: 0, top: 0, width: 0, height: 0, visible: false });
@@ -74,49 +78,47 @@ export function Navbar() {
     ] as HTMLElement[];
     if (sections.length === 0) return;
 
-    const ratios = new Map<string, number>();
-    sections.forEach((s) => ratios.set(s.id, 0));
+    let rafId = 0;
+    let current = "";
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          ratios.set(
-            entry.target.id,
-            entry.isIntersecting ? entry.intersectionRatio : 0
-          );
-        });
-        let bestId = "";
-        let bestRatio = 0;
-        ratios.forEach((ratio, id) => {
-          if (ratio > bestRatio) {
-            bestRatio = ratio;
-            bestId = id;
-          }
-        });
-        setActiveSection(bestRatio > 0 ? `#${bestId}` : "");
-      },
-      {
-        threshold: [0.25, 0.5, 0.75],
-        rootMargin: "-18% 0px -56% 0px",
+    // Continuously pick the active section from live geometry. The active
+    // section is the last one (in document order) whose top edge has scrolled
+    // above a reference line at 30% of the viewport. Height-independent and
+    // works regardless of scroll mechanism (Lenis, native), observers, or
+    // sticky/pinned children — getBoundingClientRect always reflects reality.
+    const tick = () => {
+      const refY = window.innerHeight * 0.3;
+      let activeId = "";
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= refY) {
+          activeId = section.id;
+        }
       }
-    );
+      const next = activeId ? `#${activeId}` : "";
+      if (next !== current) {
+        current = next;
+        setActiveSection(next);
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    rafId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(rafId);
   }, []);
 
   useEffect(() => {
+    const target = hoveredHref || activeSection;
     let rafId: number | null = null;
 
     const measure = () => {
       rafId = null;
       const nav = navRef.current;
       if (!nav) return;
-      if (!activeSection) {
+      if (!target) {
         setIndicator((p) => ({ ...p, visible: false }));
         return;
       }
-      const link = nav.querySelector<HTMLElement>(`[data-nav-href="${activeSection}"]`);
+      const link = nav.querySelector<HTMLElement>(`[data-nav-href="${target}"]`);
       if (!link) {
         setIndicator((p) => ({ ...p, visible: false }));
         return;
@@ -148,7 +150,7 @@ export function Navbar() {
       }
       window.removeEventListener("resize", scheduleMeasure);
     };
-  }, [activeSection]);
+  }, [hoveredHref, activeSection]);
 
   const navLinksData = [
     { label: "services", href: "#services" },
@@ -258,7 +260,7 @@ export function Navbar() {
         />
         <div className="relative z-10 flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
 
-        <nav ref={navRef} className="relative hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">
+        <nav ref={navRef} onMouseLeave={() => setHoveredHref("")} className="relative hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">
           {/* Sliding glass indicator */}
           <div
             className="absolute rounded-full overflow-hidden pointer-events-none"
@@ -294,6 +296,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               isActive={activeSection === link.href}
+              onMouseEnter={() => setHoveredHref(link.href)}
             >
               {link.label}
             </AnimatedNavLink>

@@ -11,6 +11,7 @@ import { ProductsScrollSection } from "@/components/products/ProductsScrollSecti
 import { GridVignetteBackground } from "@/components/ui/vignette-grid-background";
 import BackgroundNoise from "@/components/ui/background-noise";
 import { Footer } from "@/components/ui/footer-section";
+import ShutterText from "@/components/ui/shutter-text";
 
 export default function Page() {
   return (
@@ -29,12 +30,17 @@ export default function Page() {
         <section className="hero section reveal">
           <div className="particle-field" aria-hidden="true"></div>
           <div className="hero-content">
-            <h1>Lorven AI <span className="hero-studio">studio<span className="hero-stop">.</span></span></h1>
-            <p className="hero-catchphrase"><em>Where intelligence meets imagination.</em></p>
-            <p>Custom AI tools for film and TV teams. Scripts, storyboards, pitch decks, and the glue between them.</p>
-            <div className="hero-actions">
-              <a href="#services"><LiquidMetalButton label="our services" /></a>
-              <a href="#contact"><HoverRevealButton label="contact us" size="md" /></a>
+            <h1>
+              <span className="hero-line"><ShutterText text="LIGHTS." variant="lights" /></span>
+              <span className="hero-line"><ShutterText text="CAMERA." variant="camera" /></span>
+              <span className="hero-line"><ShutterText text="INTELLIGENCE." variant="intelligence" /></span>
+            </h1>
+            <div className="hero-meta">
+              <p>Custom AI tools for film and TV teams. Scripts, storyboards, pitch decks, and the glue between them.</p>
+              <div className="hero-actions">
+                <a href="#services"><LiquidMetalButton label="our services" /></a>
+                <a href="#contact"><HoverRevealButton label="contact us" size="md" /></a>
+              </div>
             </div>
           </div>
           <div className="hero-carousel-frame" aria-hidden="true">

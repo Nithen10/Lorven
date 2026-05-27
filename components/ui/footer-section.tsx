@@ -216,15 +216,9 @@ export function Footer() {
 						type="button"
 						onClick={handleScrollTop}
 						aria-label="Back to top"
-						className="flex aspect-square items-center justify-center rounded-full bg-[#70befa] text-black transition-all duration-300 hover:scale-105 hover:bg-[#8acbff] active:scale-95"
-						style={{
-							width: 'clamp(44px, 7vw, 140px)',
-						}}
+						className="footer-totop-btn flex aspect-square items-center justify-center rounded-full bg-[#70befa] text-black transition-all duration-300 hover:scale-105 hover:bg-[#8acbff] active:scale-95"
 					>
-						<ArrowUpIcon
-							className="text-black"
-							style={{ width: 'clamp(18px, 2.4vw, 50px)', height: 'auto' }}
-						/>
+						<ArrowUpIcon className="footer-totop-icon text-black" />
 					</button>
 				</motion.div>
 			</div>

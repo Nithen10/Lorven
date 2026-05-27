@@ -18,60 +18,35 @@ type Step = {
   icon: ReactNode;
 };
 
-const DiscoverIcon = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="10.5" cy="10.5" r="6.5" />
-    <path d="m21 21-5.5-5.5" />
-    <path d="M10.5 7v3.5h3.5" />
-  </svg>
-);
-
-const DesignIcon = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M12 19 4 21l2-8 11-11 6 6Z" />
-    <path d="m14 6 4 4" />
-    <path d="M9 16h6" />
-  </svg>
-);
-
-const BuildIcon = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="m8 17-5-5 5-5" />
-    <path d="m16 7 5 5-5 5" />
-    <path d="m14 4-4 16" />
-  </svg>
-);
-
-const LaunchIcon = () => (
-  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M4.5 16.5c-1.5 1.5-2 5-2 5s3.5-.5 5-2c.85-.85 1-2.15.34-3.16a2 2 0 0 0-3.18-.34Z" />
-    <path d="M15 12c4.5-4.5 5-10 5-10s-5.5.5-10 5c-2 2-3.5 4.5-4 7l2 2c2.5-.5 5-2 7-4Z" />
-    <path d="M9 12H5l3-3h3" />
-    <path d="M12 15v4l3-3v-3" />
-    <circle cx="15" cy="9" r="1" />
-  </svg>
+const HudFrame = ({ glyph }: { glyph: string }) => (
+  <div className="hud-frame">
+    <div className="hud-clip">
+      <div className="hud-scanline" />
+    </div>
+    <span className="hud-glyph">{glyph}</span>
+  </div>
 );
 
 const STEPS: Step[] = [
   {
     title: 'UPLOAD',
     body: 'Bring whatever you already have. A logline, a screenplay, a scene description, a production plan, or a pitch concept. Rough notes are fine too. The more context you share, the closer the first version feels to your voice.',
-    icon: <DiscoverIcon />,
+    icon: <HudFrame glyph="↑" />,
   },
   {
     title: 'GENERATE',
     body: 'Lorven turns what you brought in into a real first version. A screenplay draft, storyboard frames, a connected workflow, or a pitch-ready deck. You start from something you can actually shape, not a blank page.',
-    icon: <DesignIcon />,
+    icon: <HudFrame glyph="✦" />,
   },
   {
     title: 'REFINE',
     body: 'Shape the draft the way you want it. Adjust the tone, retake a frame, restructure a scene, swap references, or rewire a workflow step. Changes happen quickly, so your team stays in flow.',
-    icon: <BuildIcon />,
+    icon: <HudFrame glyph="⟨⟩" />,
   },
   {
     title: 'DELIVER',
     body: 'Take the finished work into the next stage. Production, review, or the pitch room. It arrives polished, ready to use, and fits the way your studio already works.',
-    icon: <LaunchIcon />,
+    icon: <HudFrame glyph="↗" />,
   },
 ];
 
@@ -122,7 +97,7 @@ function ProcessCard({ step, index, total, progress, range, locked }: ProcessCar
       className="relative w-full max-w-sm mx-auto sm:max-w-none sm:mx-0 aspect-[4/5] xl:max-[2559px]:aspect-[2/3]!"
     >
       <CornerBrackets />
-      <div className="absolute inset-5 rounded-2xl border border-white/[0.08] px-4 sm:px-6 md:px-7 lg:px-8 py-8 flex flex-col items-center text-center bg-[linear-gradient(180deg,rgba(13,13,13,0.92),rgba(10,10,10,0.85))] backdrop-blur-[2px] shadow-[0_12px_30px_rgba(0,0,0,0.4)]">
+      <div className="absolute inset-5 rounded-2xl border border-white/[0.08] px-4 sm:px-6 md:px-7 lg:px-8 py-8 flex flex-col items-center text-center bg-[linear-gradient(180deg,rgba(13,13,13,0.92),rgba(10,10,10,0.85))] backdrop-blur-[2px] shadow-[0_12px_30px_rgba(0,0,0,0.4)] hud-card">
         <div className="w-full flex items-center justify-end text-[10px] tracking-[0.28em] uppercase">
           <span className="text-[#70befa]/70 font-semibold">
             {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
